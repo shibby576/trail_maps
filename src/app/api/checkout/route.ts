@@ -17,8 +17,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Invalid image URL" }, { status: 400 });
     }
 
-    const baseUrl =
-      process.env.BASE_URL || process.env.NEXT_PUBLIC_BASE_URL || "https://trailmaps.vercel.app";
+    const baseUrl = (
+      process.env.BASE_URL ||
+      process.env.NEXT_PUBLIC_BASE_URL ||
+      "https://trailmaps.vercel.app"
+    ).trim();
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
@@ -30,7 +33,7 @@ export async function POST(request: NextRequest) {
             product_data: {
               name: `Trail Map Poster — ${size.label}`,
               description: "Enhanced Matte Paper Poster",
-              // images: [imageUrl], // re-enable after verifying checkout works
+              images: [imageUrl],
             },
           },
           quantity: 1,
