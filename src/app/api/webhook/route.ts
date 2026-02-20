@@ -63,10 +63,13 @@ export async function POST(request: NextRequest) {
         ]
       );
 
-      // Confirm the order so Printful starts fulfillment
+      // TODO: Re-enable auto-confirm when ready for production
+      // if (order?.result?.id) {
+      //   await confirmOrder(order.result.id);
+      //   console.log("Printful order confirmed:", order.result.id);
+      // }
       if (order?.result?.id) {
-        await confirmOrder(order.result.id);
-        console.log("Printful order confirmed:", order.result.id);
+        console.log("Printful order created as draft:", order.result.id);
       }
     } catch (err) {
       console.error("Failed to create Printful order:", err);
