@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     }
 
     const baseUrl =
-      process.env.NEXT_PUBLIC_BASE_URL || new URL(request.url).origin;
+      process.env.BASE_URL || process.env.NEXT_PUBLIC_BASE_URL || "https://trailmaps.vercel.app";
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
             product_data: {
               name: `Trail Map Poster — ${size.label}`,
               description: "Enhanced Matte Paper Poster",
-              images: [imageUrl],
+              // images: [imageUrl], // re-enable after verifying checkout works
             },
           },
           quantity: 1,
