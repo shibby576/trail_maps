@@ -17,7 +17,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Invalid image URL" }, { status: 400 });
     }
 
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL!;
+    const baseUrl =
+      process.env.NEXT_PUBLIC_BASE_URL || new URL(request.url).origin;
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
