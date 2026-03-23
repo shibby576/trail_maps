@@ -79,10 +79,25 @@ export default function CustomizePage() {
     setIsRendering(false);
   };
 
-  const handleNext = () => {
-    sessionStorage.setItem("posterConfig", JSON.stringify(config));
-    sessionStorage.setItem("trailGeoJSON", JSON.stringify(trailGeoJSON));
-    sessionStorage.setItem("trailBounds", JSON.stringify(trailBounds));
+  const [isNavigating, setIsNavigating] = useState(false);
+
+  const handleNext = async () => {
+    if (!trailGeoJSON || !trailBounds) return;
+    setIsNavigating(true);
+    try {
+      // Render once here so the preview page can display the exact same image
+      const blob = await renderPosterToBlob(config, trailGeoJSON, trailBounds, 3600, 4800);
+      const url = URL.createObjectURL(blob);
+      sessionStorage.setItem("posterConfig", JSON.stringify(config));
+      sessionStorage.setItem("trailGeoJSON", JSON.stringify(trailGeoJSON));
+      sessionStorage.setItem("trailBounds", JSON.stringify(trailBounds));
+      sessionStorage.setItem("posterImageUrl_preview", url);
+    } catch {
+      // If render fails just navigate anyway — preview page will re-render
+      sessionStorage.setItem("posterConfig", JSON.stringify(config));
+      sessionStorage.setItem("trailGeoJSON", JSON.stringify(trailGeoJSON));
+      sessionStorage.setItem("trailBounds", JSON.stringify(trailBounds));
+    }
     router.push("/preview");
   };
 
@@ -108,10 +123,11 @@ export default function CustomizePage() {
           <h1 className="font-semibold text-gray-900">Customize</h1>
           <Button
             onClick={handleNext}
+            disabled={isNavigating}
             size="sm"
             className="bg-emerald-600 hover:bg-emerald-700"
           >
-            Next
+            {isNavigating ? <Loader2 className="w-4 h-4 animate-spin" /> : "Next"}
           </Button>
         </div>
       </header>
