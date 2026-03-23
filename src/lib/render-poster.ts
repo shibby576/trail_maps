@@ -180,9 +180,9 @@ function renderMapCanvas(
             source: "mapbox-dem",
             paint: {
               "hillshade-exaggeration": POSTER_DESIGN.hillshade.exaggerationPrimary,
-              "hillshade-shadow-color": "#1e1e28",
+              "hillshade-shadow-color": "#323238",
               "hillshade-highlight-color": "#f7f5f2",
-              "hillshade-accent-color": "#14141c",
+              "hillshade-accent-color": "#28282e",
               "hillshade-illumination-direction": 315,
             },
           },

@@ -66,9 +66,9 @@ export function PosterPreview({
             source: "mapbox-dem",
             paint: {
               "hillshade-exaggeration": POSTER_DESIGN.hillshade.exaggerationPrimary,
-              "hillshade-shadow-color": "#1e1e28",
+              "hillshade-shadow-color": "#323238",
               "hillshade-highlight-color": "#f7f5f2",
-              "hillshade-accent-color": "#14141c",
+              "hillshade-accent-color": "#28282e",
               "hillshade-illumination-direction": 315,
             },
           },
@@ -155,7 +155,7 @@ export function PosterPreview({
           [trailBounds.minLng, trailBounds.minLat],
           [trailBounds.maxLng, trailBounds.maxLat],
         ],
-        { padding, duration: 0, maxZoom: POSTER_DESIGN.map.maxZoom }
+        { padding, duration: 0, maxZoom: POSTER_DESIGN.map.previewMaxZoom }
       );
 
       setMapLoaded(true);

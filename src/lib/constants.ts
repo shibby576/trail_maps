@@ -13,9 +13,10 @@ export const TRAIL_COLORS = [
 
 export const POSTER_DESIGN = {
   map: {
-    // Max zoom for fitBounds. Lower = more terrain context + crisper hillshade tiles.
-    // 11 = ~50mi view (good quality), 12 = ~25mi view (slight blur), 13 = ~12mi view (blurry)
+    // Print render: large canvas (~2000px wide)
     maxZoom: 12,
+    // Web preview: small container (~300px wide) needs ~3 fewer zoom levels to show the same area
+    previewMaxZoom: 9,
   },
   hillshade: {
     exaggerationPrimary: 1.0,
