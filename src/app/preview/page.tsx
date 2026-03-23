@@ -55,16 +55,9 @@ export default function PreviewPage() {
     }
   };
 
-  // Use pre-rendered image from customize page if available, otherwise render fresh
+  // Render fresh at full print resolution — same pipeline as the actual print
   useEffect(() => {
     if (!config || !trailGeoJSON || !trailBounds) return;
-
-    const stored = sessionStorage.getItem("posterImageUrl_preview");
-    if (stored) {
-      setPreviewImageUrl(stored);
-      return;
-    }
-
     let cancelled = false;
     setIsRenderingPreview(true);
     renderPosterToBlob(config, trailGeoJSON, trailBounds, 3600, 4800)
