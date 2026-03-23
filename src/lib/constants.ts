@@ -18,7 +18,7 @@ export const POSTER_DESIGN = {
     maxZoom: 12,
   },
   hillshade: {
-    exaggerationPrimary: 1.2,
+    exaggerationPrimary: 1.0,
     exaggerationSecondary: 0.6,
   },
   trail: {
