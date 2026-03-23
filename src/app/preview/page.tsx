@@ -1,11 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { ChevronLeft, Share2, Loader2 } from "lucide-react";
 import { upload } from "@vercel/blob/client";
 import { Button } from "@/components/ui/button";
-import { PosterPreview } from "@/components/poster-preview";
 import { renderPosterToBlob } from "@/lib/render-poster";
 import { generateSampleTrail } from "@/lib/gpx-parser";
 import { POSTER_SIZES } from "@/lib/constants";
@@ -19,6 +18,9 @@ export default function PreviewPage() {
   const [config, setConfig] = useState<PosterConfig | null>(null);
   const [isOrdering, setIsOrdering] = useState(false);
   const [orderError, setOrderError] = useState<string | null>(null);
+  const [previewImageUrl, setPreviewImageUrl] = useState<string | null>(null);
+  const [isRenderingPreview, setIsRenderingPreview] = useState(false);
+  const previewBlobRef = useRef<string | null>(null);
 
   useEffect(() => {
     const savedConfig = sessionStorage.getItem("posterConfig");
@@ -52,6 +54,24 @@ export default function PreviewPage() {
       }
     }
   };
+
+  // Render a screen-quality preview once data is ready
+  useEffect(() => {
+    if (!config || !trailGeoJSON || !trailBounds) return;
+    let cancelled = false;
+    setIsRenderingPreview(true);
+    renderPosterToBlob(config, trailGeoJSON, trailBounds, 1200, 1800)
+      .then((blob) => {
+        if (cancelled) return;
+        const url = URL.createObjectURL(blob);
+        if (previewBlobRef.current) URL.revokeObjectURL(previewBlobRef.current);
+        previewBlobRef.current = url;
+        setPreviewImageUrl(url);
+      })
+      .catch(console.error)
+      .finally(() => { if (!cancelled) setIsRenderingPreview(false); });
+    return () => { cancelled = true; };
+  }, [config, trailGeoJSON, trailBounds]);
 
   const handlePurchase = async () => {
     if (!config || !trailGeoJSON || !trailBounds) return;
@@ -140,12 +160,22 @@ export default function PreviewPage() {
       <div className="flex-1 overflow-y-auto pb-32">
         {/* Poster Preview */}
         <div className="bg-white p-6">
-          <div className="max-w-md mx-auto">
-            <PosterPreview
-              config={config}
-              trailGeoJSON={trailGeoJSON}
-              trailBounds={trailBounds}
-            />
+          <div className="max-w-md mx-auto" style={{ aspectRatio: "2/3" }}>
+            {previewImageUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={previewImageUrl}
+                alt="Poster preview"
+                className="w-full h-full object-contain shadow-lg"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center bg-gray-50 rounded shadow-lg">
+                <div className="flex flex-col items-center gap-3 text-gray-400">
+                  <Loader2 className="w-8 h-8 animate-spin" />
+                  <p className="text-sm">Rendering preview…</p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
