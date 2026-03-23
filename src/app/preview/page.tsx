@@ -55,12 +55,13 @@ export default function PreviewPage() {
     }
   };
 
-  // Render fresh at full print resolution — same pipeline as the actual print
+  // Render at screen-optimized resolution (900×1200 ≈ 2× the CSS container size on retina),
+  // so the image displays near 1:1 and text stays crisp. Same code path as the actual print.
   useEffect(() => {
     if (!config || !trailGeoJSON || !trailBounds) return;
     let cancelled = false;
     setIsRenderingPreview(true);
-    renderPosterToBlob(config, trailGeoJSON, trailBounds, 3600, 4800)
+    renderPosterToBlob(config, trailGeoJSON, trailBounds, 900, 1200)
       .then((blob) => {
         if (cancelled) return;
         const url = URL.createObjectURL(blob);
