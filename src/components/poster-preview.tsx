@@ -38,7 +38,8 @@ export function PosterPreview({
 
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
-      pixelRatio: 2,
+      // pixelRatio is valid in mapbox-gl v3 but missing from bundled types
+      ...({ pixelRatio: 2 } as object),
       style: {
         version: 8,
         sources: {

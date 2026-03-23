@@ -2,6 +2,9 @@ import mapboxgl from "mapbox-gl";
 import type { PosterConfig, TrailGeoJSON, TrailBounds } from "@/lib/types";
 import { MAPBOX_TOKEN, POSTER_DESIGN } from "@/lib/constants";
 
+// Force 2x tile quality; cap CSS container at maxDim so canvas (2×) stays under WebGL 4096px limit
+const PIXEL_RATIO = 2;
+
 function formatDate(dateString: string): string {
   if (!dateString) return "";
   const date = new Date(dateString + "T00:00:00");
@@ -149,7 +152,8 @@ function renderMapCanvas(
 
     const map = new mapboxgl.Map({
       container,
-      pixelRatio: PIXEL_RATIO,
+      // pixelRatio is valid in mapbox-gl v3 but missing from bundled types
+      ...({ pixelRatio: PIXEL_RATIO } as object),
       style: {
         version: 8,
         sources: {
@@ -304,9 +308,6 @@ export async function renderPosterToBlob(
   const targetMapWidth = printWidth - posterPadding * 2;
   const targetMapHeight = mapAreaHeight - posterPadding * 2;
 
-  // Use pixelRatio:2 for high-res tiles — cap CSS container at 2048 so the
-  // resulting canvas (2× CSS size) stays within the WebGL 4096px texture limit.
-  const PIXEL_RATIO = 2;
   const maxDim = 4096 / PIXEL_RATIO;
   const scaleFactor = Math.min(
     1,
