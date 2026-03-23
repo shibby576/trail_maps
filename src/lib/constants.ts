@@ -18,8 +18,8 @@ export const POSTER_DESIGN = {
     maxZoom: 12,
   },
   hillshade: {
-    exaggerationPrimary: 1.0,
-    exaggerationSecondary: 0.5,
+    exaggerationPrimary: 1.2,
+    exaggerationSecondary: 0.6,
   },
   trail: {
     defaultColor: "#d4a035",
