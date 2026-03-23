@@ -15,7 +15,7 @@ export const POSTER_DESIGN = {
   map: {
     // Max zoom for fitBounds. Lower = more terrain context + crisper hillshade tiles.
     // 11 = ~50mi view (good quality), 12 = ~25mi view (slight blur), 13 = ~12mi view (blurry)
-    maxZoom: 11,
+    maxZoom: 12,
   },
   hillshade: {
     exaggerationPrimary: 1.0,
