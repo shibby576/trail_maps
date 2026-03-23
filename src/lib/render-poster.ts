@@ -273,7 +273,7 @@ function renderMapCanvas(
           [trailBounds.minLng, trailBounds.minLat],
           [trailBounds.maxLng, trailBounds.maxLat],
         ],
-        { padding, duration: 0, maxZoom: 13 }
+        { padding, duration: 0, maxZoom: POSTER_DESIGN.map.maxZoom }
       );
 
       map.once("idle", () => {
