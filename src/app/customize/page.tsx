@@ -17,9 +17,9 @@ export default function CustomizePage() {
   const [trailGeoJSON, setTrailGeoJSON] = useState<TrailGeoJSON | null>(null);
   const [trailBounds, setTrailBounds] = useState<TrailBounds | null>(null);
   const [config, setConfig] = useState<PosterConfig>({
-    title: "Mountain Peak Trail",
-    date: "2026-01-15",
-    location: "California, USA",
+    title: "",
+    date: "2026-01-01",
+    location: "Location",
     distance: "",
     elevation: "",
     trailColor: POSTER_DESIGN.trail.defaultColor,
@@ -47,8 +47,9 @@ export default function CustomizePage() {
         ? String(parsed.stats.elevationGainFt.toLocaleString())
         : "",
       title: gpxFileName
-        ? gpxFileName.replace(".gpx", "").replace(/[-_]/g, " ") || prev.title
+        ? gpxFileName.replace(".gpx", "").replace(/[-_]/g, " ").trim()
         : prev.title,
+      date: parsed.date ?? prev.date,
     }));
   }, []);
 

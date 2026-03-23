@@ -38,6 +38,7 @@ export function PosterPreview({
 
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
+      pixelRatio: 2,
       style: {
         version: 8,
         sources: {

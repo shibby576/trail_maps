@@ -149,6 +149,7 @@ function renderMapCanvas(
 
     const map = new mapboxgl.Map({
       container,
+      pixelRatio: PIXEL_RATIO,
       style: {
         version: 8,
         sources: {
@@ -303,8 +304,10 @@ export async function renderPosterToBlob(
   const targetMapWidth = printWidth - posterPadding * 2;
   const targetMapHeight = mapAreaHeight - posterPadding * 2;
 
-  // Cap at 4096 for WebGL limits
-  const maxDim = 4096;
+  // Use pixelRatio:2 for high-res tiles — cap CSS container at 2048 so the
+  // resulting canvas (2× CSS size) stays within the WebGL 4096px texture limit.
+  const PIXEL_RATIO = 2;
+  const maxDim = 4096 / PIXEL_RATIO;
   const scaleFactor = Math.min(
     1,
     maxDim / Math.max(targetMapWidth, targetMapHeight)

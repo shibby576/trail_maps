@@ -101,6 +101,15 @@ export interface ParsedGPX {
   geojson: TrailGeoJSON;
   stats: TrailStats;
   bounds: TrailBounds;
+  date?: string; // YYYY-MM-DD extracted from first track point time
+}
+
+function extractDate(xml: Document): string | undefined {
+  const timeEl = xml.querySelector("trkpt time") || xml.querySelector("time");
+  if (!timeEl?.textContent) return undefined;
+  const iso = timeEl.textContent.trim();
+  const match = iso.match(/^(\d{4}-\d{2}-\d{2})/);
+  return match ? match[1] : undefined;
 }
 
 export function parseGPXString(text: string): ParsedGPX {
@@ -117,6 +126,7 @@ export function parseGPXString(text: string): ParsedGPX {
     geojson: pointsToGeoJSON(points),
     stats,
     bounds: stats.bounds,
+    date: extractDate(xml),
   };
 }
 
