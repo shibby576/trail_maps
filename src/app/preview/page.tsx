@@ -60,7 +60,8 @@ export default function PreviewPage() {
     if (!config || !trailGeoJSON || !trailBounds) return;
     let cancelled = false;
     setIsRenderingPreview(true);
-    renderPosterToBlob(config, trailGeoJSON, trailBounds, 1200, 1800)
+    // Render at 18x24 print resolution so the preview matches the actual print exactly
+    renderPosterToBlob(config, trailGeoJSON, trailBounds, 3600, 4800)
       .then((blob) => {
         if (cancelled) return;
         const url = URL.createObjectURL(blob);
