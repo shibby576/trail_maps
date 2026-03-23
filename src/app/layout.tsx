@@ -14,7 +14,7 @@ const cinzel = Cinzel({
 });
 
 export const metadata: Metadata = {
-  title: "TrailPrint - Turn Your Hike Into Art",
+  title: "TrailPlot - Turn Your Hike Into Art",
   description:
     "Upload your trail data and create a beautiful poster to commemorate your adventure.",
 };

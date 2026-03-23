@@ -4,35 +4,18 @@ import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { PosterPreview } from "@/components/poster-preview";
-import { generateSampleTrail } from "@/lib/gpx-parser";
-import type { PosterConfig, TrailGeoJSON, TrailBounds } from "@/lib/types";
 
 function SuccessContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id");
 
-  const [trailGeoJSON, setTrailGeoJSON] = useState<TrailGeoJSON | null>(null);
-  const [trailBounds, setTrailBounds] = useState<TrailBounds | null>(null);
-  const [config, setConfig] = useState<PosterConfig | null>(null);
+  const [posterImageUrl, setPosterImageUrl] = useState<string | null>(null);
 
   useEffect(() => {
-    const savedConfig = sessionStorage.getItem("posterConfig");
-    const savedGeoJSON = sessionStorage.getItem("trailGeoJSON");
-    const savedBounds = sessionStorage.getItem("trailBounds");
-
-    if (savedConfig) {
-      setConfig(JSON.parse(savedConfig));
-    }
-
-    if (savedGeoJSON && savedBounds) {
-      setTrailGeoJSON(JSON.parse(savedGeoJSON));
-      setTrailBounds(JSON.parse(savedBounds));
-    } else {
-      const sample = generateSampleTrail();
-      setTrailGeoJSON(sample.geojson);
-      setTrailBounds(sample.bounds);
+    const imageUrl = sessionStorage.getItem("posterImageUrl");
+    if (imageUrl) {
+      setPosterImageUrl(imageUrl);
     }
   }, []);
 
@@ -57,19 +40,20 @@ function SuccessContent() {
               Order Confirmed!
             </h1>
             <p className="text-lg text-gray-600">
-              Your custom trail map poster is being printed and will ship within
-              3-5 business days.
+              Your custom trail map poster is being printed. You&apos;ll receive
+              an email with tracking info once it ships.
             </p>
           </div>
 
-          {/* Poster Preview (only if session data still available) */}
-          {config && trailGeoJSON && trailBounds && (
+          {/* Poster Preview */}
+          {posterImageUrl && (
             <div className="bg-white/70 backdrop-blur-sm rounded-xl p-4 border border-gray-200">
               <div className="max-w-[200px] mx-auto">
-                <PosterPreview
-                  config={config}
-                  trailGeoJSON={trailGeoJSON}
-                  trailBounds={trailBounds}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={posterImageUrl}
+                  alt="Your trail map poster"
+                  className="w-full rounded shadow-sm"
                 />
               </div>
             </div>
@@ -87,8 +71,7 @@ function SuccessContent() {
             )}
             <div className="text-sm text-gray-600">
               <p>
-                Stripe will send a receipt to your email. Printful will email
-                tracking info once your poster ships.
+                You&apos;ll receive a receipt and tracking info by email.
               </p>
             </div>
           </div>

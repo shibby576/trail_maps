@@ -95,7 +95,8 @@ export default function PreviewPage() {
 
       const { url } = await res.json();
 
-      // 4. Redirect to Stripe Checkout
+      // 4. Stash rendered image for success page, then redirect to Stripe Checkout
+      sessionStorage.setItem("posterImageUrl", imageUrl);
       window.location.href = url;
     } catch (err) {
       console.error("Order error:", err);
@@ -165,7 +166,7 @@ export default function PreviewPage() {
               </div>
               <div className="flex items-start gap-3">
                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-600 mt-2 shrink-0" />
-                <p>Ships within 3-5 business days</p>
+                <p>Shipping included</p>
               </div>
             </div>
           </div>
@@ -228,7 +229,7 @@ export default function PreviewPage() {
             )}
           </Button>
           <p className="text-center text-xs text-gray-500">
-            Free shipping on orders over $50
+            Shipping included on all orders
           </p>
         </div>
       </div>

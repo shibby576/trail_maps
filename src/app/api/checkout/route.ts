@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
     const baseUrl = (
       process.env.BASE_URL ||
       process.env.NEXT_PUBLIC_BASE_URL ||
-      "https://trailmaps.vercel.app"
+      "https://trailplot.com"
     ).trim();
 
     const session = await stripe.checkout.sessions.create({
@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
             currency: "usd",
             unit_amount: size.priceCents,
             product_data: {
-              name: `Trail Map Poster — ${size.label}`,
+              name: `TrailPlot Poster — ${size.label}`,
               description: "Enhanced Matte Paper Poster",
               images: [imageUrl],
             },

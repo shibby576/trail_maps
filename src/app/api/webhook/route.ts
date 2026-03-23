@@ -39,9 +39,12 @@ export async function POST(request: NextRequest) {
     }
 
     try {
+      const customerEmail = session.customer_details?.email || undefined;
+
       const order = await createOrder(
         {
           name: shipping.name || "Customer",
+          email: customerEmail,
           address1: shipping.address.line1 || "",
           address2: shipping.address.line2 || undefined,
           city: shipping.address.city || "",
