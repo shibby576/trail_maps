@@ -129,8 +129,11 @@ export default function CustomizePage() {
           </div>
         </div>
 
-        {/* Test Render */}
-        <div className="px-6 pt-4 max-w-sm mx-auto">
+        {/* Preview quality notice + test render */}
+        <div className="px-6 pt-4 max-w-sm mx-auto space-y-2">
+          <p className="text-xs text-center text-gray-400">
+            This preview is approximate. Tap <span className="font-medium text-gray-500">Next</span> for the full-quality preview, or download a test print below.
+          </p>
           <Button
             onClick={handleTestRender}
             disabled={isRendering}
@@ -141,12 +144,12 @@ export default function CustomizePage() {
             {isRendering ? (
               <>
                 <Loader2 className="w-3 h-3 mr-1.5 animate-spin" />
-                Rendering 18x24&quot; test print...
+                Rendering test print...
               </>
             ) : (
               <>
                 <Download className="w-3 h-3 mr-1.5" />
-                Download Test Print (3600x4800px)
+                Download Test Print
               </>
             )}
           </Button>
