@@ -15,7 +15,7 @@ const PREVIEW_BASE_WIDTH = 1200;
 
 export default function PreviewPage() {
   const router = useRouter();
-  const [selectedSize, setSelectedSize] = useState(0);
+  const [selectedSize, setSelectedSize] = useState(1);
   const [trailGeoJSON, setTrailGeoJSON] = useState<TrailGeoJSON | null>(null);
   const [trailBounds, setTrailBounds] = useState<TrailBounds | null>(null);
   const [config, setConfig] = useState<PosterConfig | null>(null);
