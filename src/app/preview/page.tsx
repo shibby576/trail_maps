@@ -10,9 +10,8 @@ import { generateSampleTrail } from "@/lib/gpx-parser";
 import { POSTER_SIZES } from "@/lib/constants";
 import type { PosterConfig, TrailGeoJSON, TrailBounds } from "@/lib/types";
 
-// Preview render resolution — high enough for crisp retina display
-const PREVIEW_WIDTH = 1200;
-const PREVIEW_HEIGHT = 1800;
+// Preview renders at the selected print size's aspect ratio, scaled to ~1200px wide
+const PREVIEW_BASE_WIDTH = 1200;
 
 export default function PreviewPage() {
   const router = useRouter();
@@ -45,14 +44,20 @@ export default function PreviewPage() {
     }
   }, []);
 
-  // Render the poster as a high-res static image for crisp preview
+  // Render the poster as a high-res static image for crisp preview.
+  // Uses the selected print size's aspect ratio so the map zoom matches the final print exactly.
   useEffect(() => {
     if (!config || !trailGeoJSON || !trailBounds) return;
+
+    const size = POSTER_SIZES[selectedSize];
+    const scale = PREVIEW_BASE_WIDTH / size.printWidth;
+    const previewWidth = PREVIEW_BASE_WIDTH;
+    const previewHeight = Math.round(size.printHeight * scale);
 
     let cancelled = false;
     setPreviewLoading(true);
 
-    renderPosterToBlob(config, trailGeoJSON, trailBounds, PREVIEW_WIDTH, PREVIEW_HEIGHT)
+    renderPosterToBlob(config, trailGeoJSON, trailBounds, previewWidth, previewHeight)
       .then((blob) => {
         if (cancelled) return;
         // Revoke previous URL to avoid memory leaks
@@ -73,7 +78,7 @@ export default function PreviewPage() {
     return () => {
       cancelled = true;
     };
-  }, [config, trailGeoJSON, trailBounds]);
+  }, [config, trailGeoJSON, trailBounds, selectedSize]);
 
   // Clean up object URL on unmount
   useEffect(() => {
@@ -186,29 +191,39 @@ export default function PreviewPage() {
         {/* Poster Preview — rendered as a high-res static image */}
         <div className="bg-white p-6">
           <div className="max-w-md mx-auto">
-            {previewLoading ? (
-              <div
-                className="bg-gray-100 flex flex-col items-center justify-center"
-                style={{ aspectRatio: "2/3" }}
-              >
-                <Loader2 className="w-8 h-8 text-gray-400 animate-spin mb-3" />
-                <p className="text-sm text-gray-500">Rendering preview...</p>
-              </div>
-            ) : previewUrl ? (
-              <img
-                src={previewUrl}
-                alt={`${config.title} trail map poster preview`}
-                className="w-full shadow-lg"
-                style={{ aspectRatio: "2/3" }}
-              />
-            ) : (
-              <div
-                className="bg-gray-100 flex items-center justify-center"
-                style={{ aspectRatio: "2/3" }}
-              >
-                <p className="text-sm text-gray-500">Preview unavailable</p>
-              </div>
-            )}
+            {(() => {
+              const size = POSTER_SIZES[selectedSize];
+              const ar = `${size.printWidth}/${size.printHeight}`;
+              if (previewLoading) {
+                return (
+                  <div
+                    className="bg-gray-100 flex flex-col items-center justify-center"
+                    style={{ aspectRatio: ar }}
+                  >
+                    <Loader2 className="w-8 h-8 text-gray-400 animate-spin mb-3" />
+                    <p className="text-sm text-gray-500">Rendering preview...</p>
+                  </div>
+                );
+              }
+              if (previewUrl) {
+                return (
+                  <img
+                    src={previewUrl}
+                    alt={`${config.title} trail map poster preview`}
+                    className="w-full shadow-lg"
+                    style={{ aspectRatio: ar }}
+                  />
+                );
+              }
+              return (
+                <div
+                  className="bg-gray-100 flex items-center justify-center"
+                  style={{ aspectRatio: ar }}
+                >
+                  <p className="text-sm text-gray-500">Preview unavailable</p>
+                </div>
+              );
+            })()}
           </div>
         </div>
 
