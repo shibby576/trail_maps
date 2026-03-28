@@ -10,6 +10,10 @@ import { generateSampleTrail } from "@/lib/gpx-parser";
 import { POSTER_SIZES } from "@/lib/constants";
 import type { PosterConfig, TrailGeoJSON, TrailBounds } from "@/lib/types";
 
+// Preview render resolution — high enough for crisp retina display
+const PREVIEW_WIDTH = 1200;
+const PREVIEW_HEIGHT = 1800;
+
 export default function PreviewPage() {
   const router = useRouter();
   const [selectedSize, setSelectedSize] = useState(0);
@@ -18,9 +22,9 @@ export default function PreviewPage() {
   const [config, setConfig] = useState<PosterConfig | null>(null);
   const [isOrdering, setIsOrdering] = useState(false);
   const [orderError, setOrderError] = useState<string | null>(null);
-  const [previewImageUrl, setPreviewImageUrl] = useState<string | null>(null);
-  const [isRenderingPreview, setIsRenderingPreview] = useState(false);
-  const previewBlobRef = useRef<string | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [previewLoading, setPreviewLoading] = useState(true);
+  const previewUrlRef = useRef<string | null>(null);
 
   useEffect(() => {
     const savedConfig = sessionStorage.getItem("posterConfig");
@@ -41,6 +45,45 @@ export default function PreviewPage() {
     }
   }, []);
 
+  // Render the poster as a high-res static image for crisp preview
+  useEffect(() => {
+    if (!config || !trailGeoJSON || !trailBounds) return;
+
+    let cancelled = false;
+    setPreviewLoading(true);
+
+    renderPosterToBlob(config, trailGeoJSON, trailBounds, PREVIEW_WIDTH, PREVIEW_HEIGHT)
+      .then((blob) => {
+        if (cancelled) return;
+        // Revoke previous URL to avoid memory leaks
+        if (previewUrlRef.current) {
+          URL.revokeObjectURL(previewUrlRef.current);
+        }
+        const url = URL.createObjectURL(blob);
+        previewUrlRef.current = url;
+        setPreviewUrl(url);
+        setPreviewLoading(false);
+      })
+      .catch((err) => {
+        if (cancelled) return;
+        console.error("Preview render failed:", err);
+        setPreviewLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [config, trailGeoJSON, trailBounds]);
+
+  // Clean up object URL on unmount
+  useEffect(() => {
+    return () => {
+      if (previewUrlRef.current) {
+        URL.revokeObjectURL(previewUrlRef.current);
+      }
+    };
+  }, []);
+
   const handleShare = async () => {
     if (navigator.share) {
       try {
@@ -54,25 +97,6 @@ export default function PreviewPage() {
       }
     }
   };
-
-  // Render at screen-optimized resolution (900×1200 ≈ 2× the CSS container size on retina),
-  // so the image displays near 1:1 and text stays crisp. Same code path as the actual print.
-  useEffect(() => {
-    if (!config || !trailGeoJSON || !trailBounds) return;
-    let cancelled = false;
-    setIsRenderingPreview(true);
-    renderPosterToBlob(config, trailGeoJSON, trailBounds, 900, 1200)
-      .then((blob) => {
-        if (cancelled) return;
-        const url = URL.createObjectURL(blob);
-        if (previewBlobRef.current) URL.revokeObjectURL(previewBlobRef.current);
-        previewBlobRef.current = url;
-        setPreviewImageUrl(url);
-      })
-      .catch(console.error)
-      .finally(() => { if (!cancelled) setIsRenderingPreview(false); });
-    return () => { cancelled = true; };
-  }, [config, trailGeoJSON, trailBounds]);
 
   const handlePurchase = async () => {
     if (!config || !trailGeoJSON || !trailBounds) return;
@@ -159,22 +183,30 @@ export default function PreviewPage() {
 
       {/* Content */}
       <div className="flex-1 overflow-y-auto pb-32">
-        {/* Poster Preview */}
+        {/* Poster Preview — rendered as a high-res static image */}
         <div className="bg-white p-6">
-          <div className="max-w-md mx-auto" style={{ aspectRatio: "2/3" }}>
-            {previewImageUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
+          <div className="max-w-md mx-auto">
+            {previewLoading ? (
+              <div
+                className="bg-gray-100 flex flex-col items-center justify-center"
+                style={{ aspectRatio: "2/3" }}
+              >
+                <Loader2 className="w-8 h-8 text-gray-400 animate-spin mb-3" />
+                <p className="text-sm text-gray-500">Rendering preview...</p>
+              </div>
+            ) : previewUrl ? (
               <img
-                src={previewImageUrl}
-                alt="Poster preview"
-                className="w-full h-full object-contain shadow-lg"
+                src={previewUrl}
+                alt={`${config.title} trail map poster preview`}
+                className="w-full shadow-lg"
+                style={{ aspectRatio: "2/3" }}
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center bg-gray-50 rounded shadow-lg">
-                <div className="flex flex-col items-center gap-3 text-gray-400">
-                  <Loader2 className="w-8 h-8 animate-spin" />
-                  <p className="text-sm">Rendering preview…</p>
-                </div>
+              <div
+                className="bg-gray-100 flex items-center justify-center"
+                style={{ aspectRatio: "2/3" }}
+              >
+                <p className="text-sm text-gray-500">Preview unavailable</p>
               </div>
             )}
           </div>
