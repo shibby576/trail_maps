@@ -10,9 +10,6 @@ import { generateSampleTrail } from "@/lib/gpx-parser";
 import { POSTER_SIZES } from "@/lib/constants";
 import type { PosterConfig, TrailGeoJSON, TrailBounds } from "@/lib/types";
 
-// Preview renders at the selected print size's aspect ratio, scaled to ~1200px wide
-const PREVIEW_BASE_WIDTH = 1200;
-
 export default function PreviewPage() {
   const router = useRouter();
   const [selectedSize, setSelectedSize] = useState(1);
@@ -44,20 +41,16 @@ export default function PreviewPage() {
     }
   }, []);
 
-  // Render the poster as a high-res static image for crisp preview.
-  // Uses the selected print size's aspect ratio so the map zoom matches the final print exactly.
+  // Render the poster at full print resolution so the map zoom matches the download exactly.
   useEffect(() => {
     if (!config || !trailGeoJSON || !trailBounds) return;
 
     const size = POSTER_SIZES[selectedSize];
-    const scale = PREVIEW_BASE_WIDTH / size.printWidth;
-    const previewWidth = PREVIEW_BASE_WIDTH;
-    const previewHeight = Math.round(size.printHeight * scale);
 
     let cancelled = false;
     setPreviewLoading(true);
 
-    renderPosterToBlob(config, trailGeoJSON, trailBounds, previewWidth, previewHeight)
+    renderPosterToBlob(config, trailGeoJSON, trailBounds, size.printWidth, size.printHeight)
       .then((blob) => {
         if (cancelled) return;
         // Revoke previous URL to avoid memory leaks
