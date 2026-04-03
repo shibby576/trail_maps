@@ -130,31 +130,37 @@ export default function CustomizePage() {
           </div>
         </div>
 
-        {/* Preview quality notice + test render */}
-        <div className="px-6 pt-4 max-w-sm mx-auto space-y-2">
+        {/* Preview quality notice */}
+        <div className="px-6 pt-4 max-w-sm mx-auto">
           <p className="text-xs text-center text-gray-400">
-            This preview is approximate. Tap <span className="font-medium text-gray-500">Next</span> for the full-quality preview, or download a test print below.
+            This preview is approximate. Tap <span className="font-medium text-gray-500">Next</span> for the full-quality preview.
           </p>
-          <Button
-            onClick={handleTestRender}
-            disabled={isRendering}
-            variant="outline"
-            size="sm"
-            className="w-full text-xs"
-          >
-            {isRendering ? (
-              <>
-                <Loader2 className="w-3 h-3 mr-1.5 animate-spin" />
-                Rendering test print...
-              </>
-            ) : (
-              <>
-                <Download className="w-3 h-3 mr-1.5" />
-                Download Test Print
-              </>
-            )}
-          </Button>
         </div>
+
+        {/* Debug: test render (hidden in production) */}
+        {process.env.NODE_ENV === "development" && (
+          <div className="px-6 pt-2 max-w-sm mx-auto">
+            <Button
+              onClick={handleTestRender}
+              disabled={isRendering}
+              variant="outline"
+              size="sm"
+              className="w-full text-xs"
+            >
+              {isRendering ? (
+                <>
+                  <Loader2 className="w-3 h-3 mr-1.5 animate-spin" />
+                  Rendering test print...
+                </>
+              ) : (
+                <>
+                  <Download className="w-3 h-3 mr-1.5" />
+                  Download Test Print (dev only)
+                </>
+              )}
+            </Button>
+          </div>
+        )}
 
         {/* Controls */}
         <div className="p-6 space-y-6 max-w-2xl mx-auto">

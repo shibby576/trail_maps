@@ -170,12 +170,7 @@ export default function PreviewPage() {
             <ChevronLeft className="w-6 h-6" />
           </button>
           <h1 className="font-semibold text-gray-900">Preview</h1>
-          <button
-            onClick={handleShare}
-            className="p-2 -mr-2 hover:bg-gray-100 rounded-lg"
-          >
-            <Share2 className="w-5 h-5 text-gray-600" />
-          </button>
+          <div className="w-9" />
         </div>
       </header>
 
@@ -224,7 +219,7 @@ export default function PreviewPage() {
         <div className="px-6 py-8 space-y-6">
           <div className="bg-white rounded-xl p-6 border border-gray-200 space-y-4">
             <h2 className="text-xl font-semibold text-gray-900">
-              Premium Quality Print
+              Print Overview
             </h2>
             <div className="space-y-3 text-sm text-gray-600">
               <div className="flex items-start gap-3">

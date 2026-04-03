@@ -64,7 +64,7 @@ const faqs = [
   },
   {
     q: "My file won't upload / something looks wrong",
-    a: "Make sure you're uploading a .gpx file (not .fit, .tcx, or .kml). If you downloaded from Strava or Garmin, it should already be in the right format. If you're still stuck, email us at hello@trailplot.com and we'll help.",
+    a: "Make sure you're uploading a .gpx file (not .fit, .tcx, or .kml). If you downloaded from Strava or Garmin, it should already be in the right format. If you're still stuck, email us at trailplot@gmail.com and we'll help.",
   },
 ];
 
@@ -202,10 +202,10 @@ export default function GuidePage() {
             <span>TrailPlot</span>
           </div>
           <a
-            href="mailto:hello@trailplot.com"
+            href="mailto:trailplot@gmail.com"
             className="hover:text-gray-700"
           >
-            hello@trailplot.com
+            trailplot@gmail.com
           </a>
         </div>
       </footer>
