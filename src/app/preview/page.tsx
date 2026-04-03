@@ -229,7 +229,7 @@ export default function PreviewPage() {
             <div className="space-y-3 text-sm text-gray-600">
               <div className="flex items-start gap-3">
                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-600 mt-2 shrink-0" />
-                <p>Museum-quality poster on thick, durable matte paper</p>
+                <p>Poster printed on thick, durable matte paper</p>
               </div>
               <div className="flex items-start gap-3">
                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-600 mt-2 shrink-0" />
