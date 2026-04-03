@@ -60,20 +60,11 @@ function SuccessContent() {
           )}
 
           {/* Order Info */}
-          <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-gray-200 text-left space-y-3">
-            {sessionId && (
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-600">Payment reference</span>
-                <span className="font-mono font-medium text-gray-900 text-xs truncate ml-4 max-w-[180px]">
-                  {sessionId}
-                </span>
-              </div>
-            )}
-            <div className="text-sm text-gray-600">
-              <p>
-                You&apos;ll receive a receipt and tracking info by email.
-              </p>
-            </div>
+          <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-gray-200 text-center">
+            <p className="text-sm text-gray-600">
+              A receipt has been sent to your email. You&apos;ll also receive
+              tracking info once your poster ships.
+            </p>
           </div>
 
           {/* Actions */}
