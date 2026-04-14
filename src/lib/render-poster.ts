@@ -1,6 +1,7 @@
 import mapboxgl from "mapbox-gl";
-import type { PosterConfig, TrailGeoJSON, TrailBounds } from "@/lib/types";
+import type { PosterConfig, TrailGeoJSON, TrailBounds, MapStyleId } from "@/lib/types";
 import { MAPBOX_TOKEN, POSTER_DESIGN } from "@/lib/constants";
+import { getStyleUrl, getTrailLayerStyle } from "@/lib/map-styles";
 
 // Force 2x tile quality; cap CSS container at maxDim so canvas (2×) stays under WebGL 4096px limit
 const PIXEL_RATIO = 2;
@@ -136,6 +137,7 @@ function renderMapCanvas(
   trailGeoJSON: TrailGeoJSON,
   trailBounds: TrailBounds,
   trailColor: string,
+  mapStyle: MapStyleId,
   mapWidth: number,
   mapHeight: number
 ): Promise<HTMLCanvasElement> {
@@ -154,69 +156,7 @@ function renderMapCanvas(
       container,
       // pixelRatio is valid in mapbox-gl v3 but missing from bundled types
       ...({ pixelRatio: PIXEL_RATIO } as object),
-      style: {
-        version: 8,
-        sources: {
-          "mapbox-dem": {
-            type: "raster-dem",
-            url: "mapbox://mapbox.mapbox-terrain-dem-v1",
-            tileSize: 512,
-            maxzoom: 14,
-          },
-          "mapbox-terrain": {
-            type: "vector",
-            url: "mapbox://mapbox.mapbox-terrain-v2",
-          },
-        },
-        layers: [
-          {
-            id: "background",
-            type: "background",
-            paint: { "background-color": "#f7f5f2" },
-          },
-          {
-            id: "hillshade-primary",
-            type: "hillshade",
-            source: "mapbox-dem",
-            paint: {
-              "hillshade-exaggeration": POSTER_DESIGN.hillshade.exaggerationPrimary,
-              "hillshade-shadow-color": "#2a2a2a",
-              "hillshade-highlight-color": "#ffffff",
-              "hillshade-accent-color": "#1a1a1a",
-              "hillshade-illumination-direction": 315,
-            },
-          },
-          {
-            id: "hillshade-secondary",
-            type: "hillshade",
-            source: "mapbox-dem",
-            paint: {
-              "hillshade-exaggeration": POSTER_DESIGN.hillshade.exaggerationSecondary,
-              "hillshade-shadow-color": "#3a3a3a",
-              "hillshade-highlight-color": "#fafafa",
-              "hillshade-accent-color": "#2a2a2a",
-              "hillshade-illumination-direction": 135,
-            },
-          },
-          {
-            id: "contour-line",
-            type: "line",
-            source: "mapbox-terrain",
-            "source-layer": "contour",
-            paint: {
-              "line-color": "#a8a8a8",
-              "line-width": [
-                "match",
-                ["get", "index"],
-                5, 1.0,
-                10, 1.4,
-                0.6,
-              ],
-              "line-opacity": 0.55,
-            },
-          },
-        ],
-      },
+      style: getStyleUrl(mapStyle),
       interactive: false,
       preserveDrawingBuffer: true,
       attributionControl: false,
@@ -241,6 +181,7 @@ function renderMapCanvas(
 
       // Scale trail width up for print resolution
       const printScale = mapWidth / 400;
+      const trailStyle = getTrailLayerStyle(mapStyle);
 
       map.addLayer({
         id: "trail-glow",
@@ -248,9 +189,9 @@ function renderMapCanvas(
         source: "trail",
         paint: {
           "line-color": trailColor,
-          "line-width": POSTER_DESIGN.trail.glowWidth * printScale * 0.5,
-          "line-opacity": POSTER_DESIGN.trail.glowOpacity,
-          "line-blur": 4 * printScale * 0.5,
+          "line-width": trailStyle.glowWidth * printScale * 0.5,
+          "line-opacity": trailStyle.glowOpacity,
+          "line-blur": trailStyle.glowBlur * printScale * 0.5,
         },
         layout: { "line-cap": "round", "line-join": "round" },
       });
@@ -261,8 +202,8 @@ function renderMapCanvas(
         source: "trail",
         paint: {
           "line-color": trailColor,
-          "line-width": POSTER_DESIGN.trail.width * printScale * 0.5,
-          "line-opacity": POSTER_DESIGN.trail.opacity,
+          "line-width": trailStyle.width * printScale * 0.5,
+          "line-opacity": trailStyle.opacity,
         },
         layout: { "line-cap": "round", "line-join": "round" },
       });
@@ -321,6 +262,7 @@ export async function renderPosterToBlob(
     trailGeoJSON,
     trailBounds,
     config.trailColor,
+    config.mapStyle,
     renderMapWidth,
     renderMapHeight
   );

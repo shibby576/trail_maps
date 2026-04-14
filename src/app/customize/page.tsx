@@ -10,7 +10,7 @@ import { PosterPreview } from "@/components/poster-preview";
 import { renderPosterToBlob } from "@/lib/render-poster";
 import { parseGPXString, generateSampleTrail } from "@/lib/gpx-parser";
 import type { PosterConfig, TrailGeoJSON, TrailBounds } from "@/lib/types";
-import { TRAIL_COLORS, POSTER_DESIGN } from "@/lib/constants";
+import { TRAIL_COLORS, POSTER_DESIGN, MAP_STYLES } from "@/lib/constants";
 
 export default function CustomizePage() {
   const router = useRouter();
@@ -23,6 +23,7 @@ export default function CustomizePage() {
     distance: "",
     elevation: "",
     trailColor: POSTER_DESIGN.trail.defaultColor,
+    mapStyle: "outdoors",
   });
 
   useEffect(() => {
@@ -164,6 +165,52 @@ export default function CustomizePage() {
 
         {/* Controls */}
         <div className="p-6 space-y-6 max-w-2xl mx-auto">
+          {/* Map Style */}
+          <div className="space-y-3">
+            <Label>Map Style</Label>
+            <div className="grid grid-cols-3 gap-3">
+              {MAP_STYLES.map((style) => {
+                const isSelected = config.mapStyle === style.id;
+                return (
+                  <button
+                    key={style.id}
+                    onClick={() => setConfig({ ...config, mapStyle: style.id })}
+                    className={`relative rounded-xl overflow-hidden border-2 transition-all text-left ${
+                      isSelected
+                        ? "border-gray-900 shadow-md"
+                        : "border-transparent hover:border-gray-300"
+                    }`}
+                  >
+                    {/* Color swatch strip */}
+                    <div className="flex h-10">
+                      {style.swatches.map((color, i) => (
+                        <div
+                          key={i}
+                          className="flex-1"
+                          style={{ backgroundColor: color }}
+                        />
+                      ))}
+                    </div>
+                    {/* Label */}
+                    <div className="px-2 py-2 bg-white">
+                      <p className="text-xs font-semibold text-gray-900 leading-tight">
+                        {style.name}
+                      </p>
+                      <p className="text-[10px] text-gray-500 leading-tight mt-0.5">
+                        {style.description}
+                      </p>
+                    </div>
+                    {isSelected && (
+                      <div className="absolute top-1.5 right-1.5 w-4 h-4 bg-gray-900 rounded-full flex items-center justify-center">
+                        <Check className="w-2.5 h-2.5 text-white" />
+                      </div>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
           {/* Trail Color */}
           <div className="space-y-3">
             <Label>Trail Color</Label>

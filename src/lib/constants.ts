@@ -1,4 +1,5 @@
 export const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || "";
+export const STADIA_MAPS_KEY = process.env.NEXT_PUBLIC_STADIA_MAPS_KEY || "";
 
 export const TRAIL_COLORS = [
   { name: "Gold", hex: "#d4a035" },
@@ -9,6 +10,28 @@ export const TRAIL_COLORS = [
   { name: "Slate", hex: "#64748b" },
   { name: "White", hex: "#ffffff" },
   { name: "Black", hex: "#1a1a1a" },
+] as const;
+
+export const MAP_STYLES = [
+  {
+    id: "outdoors" as const,
+    name: "Outdoors",
+    description: "Topographic with terrain detail",
+    // Representative palette swatches shown in the style picker
+    swatches: ["#4a7c59", "#d4c9a8", "#7aadbb", "#c8b99a"],
+  },
+  {
+    id: "watercolor" as const,
+    name: "Watercolor",
+    description: "Hand-painted artistic",
+    swatches: ["#c9d8b6", "#e8d9c0", "#a8c4cc", "#d4bfa8"],
+  },
+  {
+    id: "topo" as const,
+    name: "Topo",
+    description: "Vintage cartographic",
+    swatches: ["#f0e8d0", "#c8b898", "#a89070", "#e0d8c0"],
+  },
 ] as const;
 
 export const POSTER_DESIGN = {

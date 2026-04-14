@@ -1,3 +1,5 @@
+export type MapStyleId = "outdoors" | "watercolor" | "topo";
+
 export interface PosterConfig {
   title: string;
   date: string;
@@ -5,6 +7,7 @@ export interface PosterConfig {
   distance: string;
   elevation: string;
   trailColor: string;
+  mapStyle: MapStyleId;
 }
 
 export interface TrailGeoJSON {
