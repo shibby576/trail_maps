@@ -1,20 +1,17 @@
 import type { MapStyleId } from "./types";
-import { STADIA_MAPS_KEY } from "./constants";
 
 /**
  * Returns the Mapbox GL-compatible style URL for a given style ID.
- *
- * Outdoors: Mapbox-hosted, uses your existing MAPBOX_TOKEN.
- * Watercolor / Topo: Stadia Maps (Stamen), requires NEXT_PUBLIC_STADIA_MAPS_KEY.
+ * All three use your existing MAPBOX_TOKEN — no additional keys needed.
  */
 export function getStyleUrl(styleId: MapStyleId): string {
   switch (styleId) {
     case "outdoors":
       return "mapbox://styles/mapbox/outdoors-v12";
-    case "watercolor":
-      return `https://tiles.stadiamaps.com/styles/stamen_watercolor.json${STADIA_MAPS_KEY ? `?api_key=${STADIA_MAPS_KEY}` : ""}`;
-    case "topo":
-      return `https://tiles.stadiamaps.com/styles/stamen_terrain.json${STADIA_MAPS_KEY ? `?api_key=${STADIA_MAPS_KEY}` : ""}`;
+    case "dark":
+      return "mapbox://styles/mapbox/dark-v11";
+    case "satellite":
+      return "mapbox://styles/mapbox/satellite-streets-v12";
   }
 }
 
@@ -27,16 +24,16 @@ export interface TrailLayerStyle {
 }
 
 /**
- * Per-style trail line settings. Watercolor needs a thicker, more opaque line
- * to read clearly against the busy painted background. Topo stays clean/minimal.
+ * Per-style trail line settings.
+ * Dark/satellite need a stronger glow so the trail reads clearly.
  */
 export function getTrailLayerStyle(styleId: MapStyleId): TrailLayerStyle {
   switch (styleId) {
     case "outdoors":
-      return { width: 2.5, opacity: 0.9, glowWidth: 7, glowOpacity: 0.2, glowBlur: 3 };
-    case "watercolor":
-      return { width: 3.5, opacity: 1.0, glowWidth: 12, glowOpacity: 0.3, glowBlur: 6 };
-    case "topo":
-      return { width: 2.5, opacity: 0.95, glowWidth: 6, glowOpacity: 0.15, glowBlur: 2 };
+      return { width: 2.5, opacity: 0.9,  glowWidth: 7,  glowOpacity: 0.2,  glowBlur: 3 };
+    case "dark":
+      return { width: 2.5, opacity: 1.0,  glowWidth: 10, glowOpacity: 0.35, glowBlur: 5 };
+    case "satellite":
+      return { width: 3.0, opacity: 1.0,  glowWidth: 10, glowOpacity: 0.4,  glowBlur: 5 };
   }
 }

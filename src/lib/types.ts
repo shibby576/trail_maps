@@ -1,4 +1,4 @@
-export type MapStyleId = "outdoors" | "watercolor" | "topo";
+export type MapStyleId = "outdoors" | "dark" | "satellite";
 
 export interface PosterConfig {
   title: string;

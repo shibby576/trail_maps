@@ -17,20 +17,19 @@ export const MAP_STYLES = [
     id: "outdoors" as const,
     name: "Outdoors",
     description: "Topographic with terrain detail",
-    // Representative palette swatches shown in the style picker
     swatches: ["#4a7c59", "#d4c9a8", "#7aadbb", "#c8b99a"],
   },
   {
-    id: "watercolor" as const,
-    name: "Watercolor",
-    description: "Hand-painted artistic",
-    swatches: ["#c9d8b6", "#e8d9c0", "#a8c4cc", "#d4bfa8"],
+    id: "dark" as const,
+    name: "Dark",
+    description: "High contrast, dramatic",
+    swatches: ["#1a1a1a", "#2a2a2a", "#383838", "#484848"],
   },
   {
-    id: "topo" as const,
-    name: "Topo",
-    description: "Vintage cartographic",
-    swatches: ["#f0e8d0", "#c8b898", "#a89070", "#e0d8c0"],
+    id: "satellite" as const,
+    name: "Satellite",
+    description: "Real-world aerial imagery",
+    swatches: ["#2d4a28", "#4a6e38", "#3a5a70", "#6a7a50"],
   },
 ] as const;
 
