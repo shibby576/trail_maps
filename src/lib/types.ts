@@ -1,4 +1,13 @@
-export type MapStyleId = "outdoors" | "dark" | "satellite";
+export type MapStyleId =
+  | "outdoors"
+  | "dark"
+  | "satellite"
+  | "light"
+  | "standard"
+  | "standard-satellite"
+  | "satellite-pure"
+  | "navigation-night"
+  | "streets";
 
 export interface PosterConfig {
   title: string;

@@ -20,16 +20,46 @@ export const MAP_STYLES = [
     swatches: ["#4a7c59", "#d4c9a8", "#7aadbb", "#c8b99a"],
   },
   {
+    id: "light" as const,
+    name: "Light",
+    description: "Clean, minimal, print-friendly",
+    swatches: ["#f5f5f2", "#e8e4de", "#d4cfc8", "#c8c2b8"],
+  },
+  {
     id: "dark" as const,
     name: "Dark",
     description: "High contrast, dramatic",
     swatches: ["#1a1a1a", "#2a2a2a", "#383838", "#484848"],
   },
   {
-    id: "satellite" as const,
-    name: "Satellite",
-    description: "Real-world aerial imagery",
-    swatches: ["#2d4a28", "#4a6e38", "#3a5a70", "#6a7a50"],
+    id: "standard" as const,
+    name: "Standard",
+    description: "Mapbox's newest, most polished",
+    swatches: ["#e8f0e8", "#c8d8c0", "#a8c4b8", "#d8e8d0"],
+  },
+  {
+    id: "standard-satellite" as const,
+    name: "Satellite+",
+    description: "Modern satellite with clean labels",
+    swatches: ["#2d4a28", "#3a5a38", "#4a6a50", "#5a7a60"],
+  },
+  {
+    id: "satellite-pure" as const,
+    name: "Aerial",
+    description: "Raw satellite, no labels",
+    swatches: ["#1e3820", "#2d4e2a", "#3a5e38", "#284530"],
+  },
+  {
+    id: "navigation-night" as const,
+    name: "Nav Night",
+    description: "Blue-dark navigation style",
+    swatches: ["#0a1628", "#0f2040", "#142850", "#1a3060"],
+  },
+  {
+    id: "streets" as const,
+    name: "Streets",
+    description: "Classic road map with full detail",
+    swatches: ["#f8f4ef", "#e8e0d0", "#d8d0c0", "#c8bfb0"],
   },
 ] as const;
 
