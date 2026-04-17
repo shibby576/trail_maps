@@ -1,4 +1,5 @@
 import type { MapStyleId } from "./types";
+import { STADIA_MAPS_KEY } from "./constants";
 
 /**
  * Returns the Mapbox GL-compatible style URL for a given style ID.
@@ -15,6 +16,8 @@ export function getStyleUrl(styleId: MapStyleId): string {
     case "satellite-pure":   return "mapbox://styles/mapbox/satellite-v9";
     case "navigation-night": return "mapbox://styles/mapbox/navigation-night-v1";
     case "streets":          return "mapbox://styles/mapbox/streets-v12";
+    case "watercolor":       return `https://tiles.stadiamaps.com/styles/stamen_watercolor.json${STADIA_MAPS_KEY ? `?api_key=${STADIA_MAPS_KEY}` : ""}`;
+    case "topo":             return `https://tiles.stadiamaps.com/styles/stamen_terrain.json${STADIA_MAPS_KEY ? `?api_key=${STADIA_MAPS_KEY}` : ""}`;
   }
 }
 
@@ -45,5 +48,9 @@ export function getTrailLayerStyle(styleId: MapStyleId): TrailLayerStyle {
     case "standard-satellite":
     case "satellite-pure":
       return { width: 3.0, opacity: 1.0,  glowWidth: 10, glowOpacity: 0.4,  glowBlur: 5 };
+    case "watercolor":
+      return { width: 3.5, opacity: 1.0,  glowWidth: 12, glowOpacity: 0.3,  glowBlur: 6 };
+    case "topo":
+      return { width: 2.5, opacity: 0.95, glowWidth: 6,  glowOpacity: 0.15, glowBlur: 2 };
   }
 }

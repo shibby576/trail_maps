@@ -7,7 +7,9 @@ export type MapStyleId =
   | "standard-satellite"
   | "satellite-pure"
   | "navigation-night"
-  | "streets";
+  | "streets"
+  | "watercolor"
+  | "topo";
 
 export interface PosterConfig {
   title: string;

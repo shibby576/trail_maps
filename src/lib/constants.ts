@@ -61,6 +61,18 @@ export const MAP_STYLES = [
     description: "Classic road map with full detail",
     swatches: ["#f8f4ef", "#e8e0d0", "#d8d0c0", "#c8bfb0"],
   },
+  {
+    id: "watercolor" as const,
+    name: "Watercolor",
+    description: "Hand-painted artistic (Stamen)",
+    swatches: ["#c9d8b6", "#e8d9c0", "#a8c4cc", "#d4bfa8"],
+  },
+  {
+    id: "topo" as const,
+    name: "Topo",
+    description: "Vintage cartographic (Stamen)",
+    swatches: ["#f0e8d0", "#c8b898", "#a89070", "#e0d8c0"],
+  },
 ] as const;
 
 export const POSTER_DESIGN = {
