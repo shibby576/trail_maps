@@ -38,39 +38,21 @@ export const MAP_STYLES = [
     swatches: ["#e8f0e8", "#c8d8c0", "#a8c4b8", "#d8e8d0"],
   },
   {
-    id: "standard-satellite" as const,
-    name: "Satellite+",
-    description: "Modern satellite with clean labels",
-    swatches: ["#2d4a28", "#3a5a38", "#4a6a50", "#5a7a60"],
-  },
-  {
     id: "satellite-pure" as const,
     name: "Aerial",
     description: "Raw satellite, no labels",
     swatches: ["#1e3820", "#2d4e2a", "#3a5e38", "#284530"],
   },
   {
-    id: "navigation-night" as const,
-    name: "Nav Night",
-    description: "Blue-dark navigation style",
-    swatches: ["#0a1628", "#0f2040", "#142850", "#1a3060"],
-  },
-  {
-    id: "streets" as const,
-    name: "Streets",
-    description: "Classic road map with full detail",
-    swatches: ["#f8f4ef", "#e8e0d0", "#d8d0c0", "#c8bfb0"],
-  },
-  {
     id: "watercolor" as const,
     name: "Watercolor",
-    description: "Hand-painted artistic (Stamen)",
+    description: "Hand-painted artistic",
     swatches: ["#c9d8b6", "#e8d9c0", "#a8c4cc", "#d4bfa8"],
   },
   {
     id: "topo" as const,
     name: "Topo",
-    description: "Vintage cartographic (Stamen)",
+    description: "Vintage cartographic",
     swatches: ["#f0e8d0", "#c8b898", "#a89070", "#e0d8c0"],
   },
 ] as const;

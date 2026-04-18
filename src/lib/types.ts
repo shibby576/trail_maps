@@ -1,13 +1,9 @@
 export type MapStyleId =
   | "outdoors"
-  | "dark"
-  | "satellite"
   | "light"
+  | "dark"
   | "standard"
-  | "standard-satellite"
   | "satellite-pure"
-  | "navigation-night"
-  | "streets"
   | "watercolor"
   | "topo";
 
