@@ -1,4 +1,5 @@
 export const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || "";
+export const STADIA_MAPS_KEY = process.env.NEXT_PUBLIC_STADIA_MAPS_KEY || "";
 
 export const TRAIL_COLORS = [
   { name: "Gold", hex: "#d4a035" },
@@ -9,6 +10,51 @@ export const TRAIL_COLORS = [
   { name: "Slate", hex: "#64748b" },
   { name: "White", hex: "#ffffff" },
   { name: "Black", hex: "#1a1a1a" },
+] as const;
+
+export const MAP_STYLES = [
+  {
+    id: "outdoors" as const,
+    name: "Outdoors",
+    description: "Topographic with terrain detail",
+    swatches: ["#4a7c59", "#d4c9a8", "#7aadbb", "#c8b99a"],
+  },
+  {
+    id: "light" as const,
+    name: "Light",
+    description: "Clean, minimal, print-friendly",
+    swatches: ["#f5f5f2", "#e8e4de", "#d4cfc8", "#c8c2b8"],
+  },
+  {
+    id: "dark" as const,
+    name: "Dark",
+    description: "High contrast, dramatic",
+    swatches: ["#1a1a1a", "#2a2a2a", "#383838", "#484848"],
+  },
+  {
+    id: "standard" as const,
+    name: "Standard",
+    description: "Mapbox's newest, most polished",
+    swatches: ["#e8f0e8", "#c8d8c0", "#a8c4b8", "#d8e8d0"],
+  },
+  {
+    id: "satellite-pure" as const,
+    name: "Aerial",
+    description: "Raw satellite, no labels",
+    swatches: ["#1e3820", "#2d4e2a", "#3a5e38", "#284530"],
+  },
+  {
+    id: "watercolor" as const,
+    name: "Watercolor",
+    description: "Hand-painted artistic",
+    swatches: ["#c9d8b6", "#e8d9c0", "#a8c4cc", "#d4bfa8"],
+  },
+  {
+    id: "topo" as const,
+    name: "Topo",
+    description: "Vintage cartographic",
+    swatches: ["#f0e8d0", "#c8b898", "#a89070", "#e0d8c0"],
+  },
 ] as const;
 
 export const POSTER_DESIGN = {

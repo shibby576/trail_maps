@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { stripe } from "@/lib/stripe";
+import { getStripe } from "@/lib/stripe";
 import { POSTER_SIZES } from "@/lib/constants";
 import type { CheckoutRequest } from "@/lib/types";
 
@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
       "https://trailplot.com"
     ).trim();
 
-    const session = await stripe.checkout.sessions.create({
+    const session = await getStripe().checkout.sessions.create({
       mode: "payment",
       line_items: [
         {

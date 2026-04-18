@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import type { PosterConfig, TrailGeoJSON, TrailBounds } from "@/lib/types";
 import { MAPBOX_TOKEN, POSTER_DESIGN } from "@/lib/constants";
+import { getStyleUrl, getTrailLayerStyle } from "@/lib/map-styles";
 
 interface PosterPreviewProps {
   config: PosterConfig;
@@ -28,81 +29,26 @@ export function PosterPreview({
 }: PosterPreviewProps) {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
+  const baseZoomRef = useRef<number | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
 
-  // Initialize map
+  // Destructure so we can add only the relevant deps without reinitializing on
+  // every config field change (e.g. title, color).
+  const { mapStyle, zoomOffset } = config;
+
+  // Initialize (or reinitialize) map whenever trail data or style changes.
   useEffect(() => {
     if (!mapContainerRef.current || !MAPBOX_TOKEN) return;
 
     mapboxgl.accessToken = MAPBOX_TOKEN;
 
+    const trailStyle = getTrailLayerStyle(mapStyle);
+
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
       // pixelRatio is valid in mapbox-gl v3 but missing from bundled types
       ...({ pixelRatio: 2 } as object),
-      style: {
-        version: 8,
-        sources: {
-          "mapbox-dem": {
-            type: "raster-dem",
-            url: "mapbox://mapbox.mapbox-terrain-dem-v1",
-            tileSize: 512,
-            maxzoom: 14,
-          },
-          "mapbox-terrain": {
-            type: "vector",
-            url: "mapbox://mapbox.mapbox-terrain-v2",
-          },
-        },
-        layers: [
-          {
-            id: "background",
-            type: "background",
-            paint: { "background-color": "#f7f5f2" },
-          },
-          {
-            id: "hillshade-primary",
-            type: "hillshade",
-            source: "mapbox-dem",
-            paint: {
-              "hillshade-exaggeration": POSTER_DESIGN.hillshade.exaggerationPrimary,
-              "hillshade-shadow-color": "#2a2a2a",
-              "hillshade-highlight-color": "#ffffff",
-              "hillshade-accent-color": "#1a1a1a",
-              "hillshade-illumination-direction": 315,
-            },
-          },
-          {
-            id: "hillshade-secondary",
-            type: "hillshade",
-            source: "mapbox-dem",
-            paint: {
-              "hillshade-exaggeration": POSTER_DESIGN.hillshade.exaggerationSecondary,
-              "hillshade-shadow-color": "#3a3a3a",
-              "hillshade-highlight-color": "#fafafa",
-              "hillshade-accent-color": "#2a2a2a",
-              "hillshade-illumination-direction": 135,
-            },
-          },
-          {
-            id: "contour-line",
-            type: "line",
-            source: "mapbox-terrain",
-            "source-layer": "contour",
-            paint: {
-              "line-color": "#a8a8a8",
-              "line-width": [
-                "match",
-                ["get", "index"],
-                5, 1.0,
-                10, 1.4,
-                0.6,
-              ],
-              "line-opacity": 0.55,
-            },
-          },
-        ],
-      },
+      style: getStyleUrl(mapStyle),
       interactive: false,
       preserveDrawingBuffer: true,
       attributionControl: false,
@@ -122,14 +68,11 @@ export function PosterPreview({
         source: "trail",
         paint: {
           "line-color": config.trailColor,
-          "line-width": POSTER_DESIGN.trail.glowWidth,
-          "line-opacity": POSTER_DESIGN.trail.glowOpacity,
-          "line-blur": 4,
+          "line-width": trailStyle.glowWidth,
+          "line-opacity": trailStyle.glowOpacity,
+          "line-blur": trailStyle.glowBlur,
         },
-        layout: {
-          "line-cap": "round",
-          "line-join": "round",
-        },
+        layout: { "line-cap": "round", "line-join": "round" },
       });
 
       // Trail line
@@ -139,16 +82,13 @@ export function PosterPreview({
         source: "trail",
         paint: {
           "line-color": config.trailColor,
-          "line-width": POSTER_DESIGN.trail.width,
-          "line-opacity": POSTER_DESIGN.trail.opacity,
+          "line-width": trailStyle.width,
+          "line-opacity": trailStyle.opacity,
         },
-        layout: {
-          "line-cap": "round",
-          "line-join": "round",
-        },
+        layout: { "line-cap": "round", "line-join": "round" },
       });
 
-      // Fit bounds
+      // Fit bounds to trail, then capture base zoom for offset adjustments
       const padding = POSTER_DESIGN.layout.mapPaddingPx;
       map.fitBounds(
         [
@@ -157,6 +97,7 @@ export function PosterPreview({
         ],
         { padding, duration: 0, maxZoom: POSTER_DESIGN.map.previewMaxZoom }
       );
+      baseZoomRef.current = map.getZoom();
 
       setMapLoaded(true);
     });
@@ -166,12 +107,13 @@ export function PosterPreview({
     return () => {
       map.remove();
       mapRef.current = null;
+      baseZoomRef.current = null;
       setMapLoaded(false);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [trailGeoJSON, trailBounds]);
+  }, [trailGeoJSON, trailBounds, mapStyle]);
 
-  // Update trail color
+  // Update trail color live without reinitializing the map.
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !mapLoaded) return;
@@ -183,6 +125,13 @@ export function PosterPreview({
       // Layer not ready yet
     }
   }, [config.trailColor, mapLoaded]);
+
+  // Apply zoom offset relative to the auto-fit baseline.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !mapLoaded || baseZoomRef.current === null) return;
+    map.setZoom(baseZoomRef.current + zoomOffset);
+  }, [zoomOffset, mapLoaded]);
 
   const stats = [
     config.distance && `${config.distance} MI`,
