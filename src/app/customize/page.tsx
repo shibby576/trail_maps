@@ -162,6 +162,9 @@ export default function CustomizePage() {
               >
                 +
               </button>
+            </div>
+          </div>
+        </div>
 
         {/* Preview quality notice */}
         <div className="px-6 pt-4 max-w-sm mx-auto">
