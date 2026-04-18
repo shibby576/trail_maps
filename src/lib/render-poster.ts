@@ -138,6 +138,7 @@ function renderMapCanvas(
   trailBounds: TrailBounds,
   trailColor: string,
   mapStyle: MapStyleId,
+  zoomOffset: number,
   mapWidth: number,
   mapHeight: number
 ): Promise<HTMLCanvasElement> {
@@ -216,6 +217,9 @@ function renderMapCanvas(
         ],
         { padding, duration: 0, maxZoom: POSTER_DESIGN.map.maxZoom }
       );
+      if (zoomOffset !== 0) {
+        map.setZoom(map.getZoom() + zoomOffset);
+      }
 
       map.once("idle", () => {
         const mapCanvas = map.getCanvas();
@@ -263,6 +267,7 @@ export async function renderPosterToBlob(
     trailBounds,
     config.trailColor,
     config.mapStyle,
+    config.zoomOffset,
     renderMapWidth,
     renderMapHeight
   );

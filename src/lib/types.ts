@@ -19,6 +19,7 @@ export interface PosterConfig {
   elevation: string;
   trailColor: string;
   mapStyle: MapStyleId;
+  zoomOffset: number;
 }
 
 export interface TrailGeoJSON {

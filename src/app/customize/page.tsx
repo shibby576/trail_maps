@@ -24,6 +24,7 @@ export default function CustomizePage() {
     elevation: "",
     trailColor: POSTER_DESIGN.trail.defaultColor,
     mapStyle: "outdoors",
+    zoomOffset: 0,
   });
 
   useEffect(() => {
@@ -131,11 +132,47 @@ export default function CustomizePage() {
           </div>
         </div>
 
+        {/* Zoom controls */}
+        <div className="px-6 pt-4 max-w-sm mx-auto">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-medium text-gray-600">Zoom</span>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setConfig({ ...config, zoomOffset: Math.max(config.zoomOffset - 0.5, -3) })}
+                className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center text-gray-600 hover:bg-gray-100 text-lg leading-none"
+              >
+                −
+              </button>
+              <span className="text-xs text-gray-500 w-10 text-center tabular-nums">
+                {config.zoomOffset === 0 ? "Auto" : config.zoomOffset > 0 ? `+${config.zoomOffset}` : config.zoomOffset}
+              </span>
+              <button
+                onClick={() => setConfig({ ...config, zoomOffset: Math.min(config.zoomOffset + 0.5, 3) })}
+                className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center text-gray-600 hover:bg-gray-100 text-lg leading-none"
+              >
+                +
+              </button>
+              {config.zoomOffset !== 0 && (
+                <button
+                  onClick={() => setConfig({ ...config, zoomOffset: 0 })}
+                  className="text-xs text-emerald-600 hover:text-emerald-700 ml-1"
+                >
+                  Reset
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+
         {/* Preview quality notice */}
         <div className="px-6 pt-4 max-w-sm mx-auto">
-          <p className="text-xs text-center text-gray-400">
-            This preview is approximate. Tap <span className="font-medium text-gray-500">Next</span> for the full-quality preview.
-          </p>
+          <div className="flex items-start gap-2.5 bg-amber-50 border border-amber-200 rounded-lg px-3.5 py-3">
+            <span className="text-amber-500 text-base leading-none mt-0.5">⚠</span>
+            <p className="text-xs text-amber-800 leading-relaxed">
+              <span className="font-semibold">This is a low-resolution preview.</span> Tap{" "}
+              <span className="font-bold">Next</span> to see the full print-quality version before ordering.
+            </p>
+          </div>
         </div>
 
         {/* Debug: test render (hidden in production) */}

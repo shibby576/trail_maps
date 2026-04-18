@@ -29,11 +29,12 @@ export function PosterPreview({
 }: PosterPreviewProps) {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
+  const baseZoomRef = useRef<number | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
 
-  // Destructure so we can add mapStyle to dep array without reinitializing on
-  // every other config field change (e.g. title, color).
-  const { mapStyle } = config;
+  // Destructure so we can add only the relevant deps without reinitializing on
+  // every config field change (e.g. title, color).
+  const { mapStyle, zoomOffset } = config;
 
   // Initialize (or reinitialize) map whenever trail data or style changes.
   useEffect(() => {
@@ -87,7 +88,7 @@ export function PosterPreview({
         layout: { "line-cap": "round", "line-join": "round" },
       });
 
-      // Fit bounds to trail
+      // Fit bounds to trail, then capture base zoom for offset adjustments
       const padding = POSTER_DESIGN.layout.mapPaddingPx;
       map.fitBounds(
         [
@@ -96,6 +97,7 @@ export function PosterPreview({
         ],
         { padding, duration: 0, maxZoom: POSTER_DESIGN.map.previewMaxZoom }
       );
+      baseZoomRef.current = map.getZoom();
 
       setMapLoaded(true);
     });
@@ -105,6 +107,7 @@ export function PosterPreview({
     return () => {
       map.remove();
       mapRef.current = null;
+      baseZoomRef.current = null;
       setMapLoaded(false);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -122,6 +125,13 @@ export function PosterPreview({
       // Layer not ready yet
     }
   }, [config.trailColor, mapLoaded]);
+
+  // Apply zoom offset relative to the auto-fit baseline.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !mapLoaded || baseZoomRef.current === null) return;
+    map.setZoom(baseZoomRef.current + zoomOffset);
+  }, [zoomOffset, mapLoaded]);
 
   const stats = [
     config.distance && `${config.distance} MI`,
