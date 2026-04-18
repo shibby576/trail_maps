@@ -135,7 +135,17 @@ export default function CustomizePage() {
         {/* Zoom controls */}
         <div className="px-6 pt-4 max-w-sm mx-auto">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-gray-600">Zoom</span>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-medium text-gray-600">Zoom</span>
+              {config.zoomOffset !== 0 && (
+                <button
+                  onClick={() => setConfig({ ...config, zoomOffset: 0 })}
+                  className="text-xs text-emerald-600 hover:text-emerald-700"
+                >
+                  Reset
+                </button>
+              )}
+            </div>
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setConfig({ ...config, zoomOffset: Math.max(config.zoomOffset - 0.5, -3) })}
@@ -152,17 +162,6 @@ export default function CustomizePage() {
               >
                 +
               </button>
-              {config.zoomOffset !== 0 && (
-                <button
-                  onClick={() => setConfig({ ...config, zoomOffset: 0 })}
-                  className="text-xs text-emerald-600 hover:text-emerald-700 ml-1"
-                >
-                  Reset
-                </button>
-              )}
-            </div>
-          </div>
-        </div>
 
         {/* Preview quality notice */}
         <div className="px-6 pt-4 max-w-sm mx-auto">
