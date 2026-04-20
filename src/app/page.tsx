@@ -1,16 +1,31 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Upload, MapPin, Palette, Printer, ArrowRight } from "lucide-react";
+import { Upload, MapPin, Palette, Printer } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { TrailShape } from "@/components/trail-shape";
 import { SAMPLE_TRAILS } from "@/lib/sample-trails";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+const ACTIVITY_WORDS = ["Hike", "Run", "Ride", "Climb", "Trek"];
 
 export default function HomePage() {
   const router = useRouter();
   const [loadingTrail, setLoadingTrail] = useState<string | null>(null);
+  const [wordIndex, setWordIndex] = useState(0);
+  const [fading, setFading] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFading(true);
+      setTimeout(() => {
+        setWordIndex((i) => (i + 1) % ACTIVITY_WORDS.length);
+        setFading(false);
+      }, 300);
+    }, 2200);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleFileUpload = (file: File) => {
     const reader = new FileReader();
@@ -68,7 +83,14 @@ export default function HomePage() {
           {/* Hero */}
           <div className="text-center space-y-4 pt-8">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 tracking-tight">
-              Get Your Hike Off Your Phone<br className="hidden md:block" /> and Onto Your Wall
+              Get Your{" "}
+              <span
+                className="text-emerald-600 inline-block transition-opacity duration-300"
+                style={{ opacity: fading ? 0 : 1 }}
+              >
+                {ACTIVITY_WORDS[wordIndex]}
+              </span>{" "}
+              Off Your Phone<br className="hidden md:block" /> and Onto Your Wall
             </h2>
             <p className="text-lg text-gray-600 max-w-xl mx-auto">
               Upload your trail. Pick your style. Get a high-quality poster
