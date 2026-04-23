@@ -9,18 +9,22 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@tailwindcss/typography": "^0.5.19",
     "@types/mapbox-gl": "^3.4.1",
     "@vercel/analytics": "^2.0.1",
     "@vercel/blob": "^2.1.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "gpxparser": "^3.0.8",
+    "gray-matter": "^4.0.3",
     "lucide-react": "^0.563.0",
     "mapbox-gl": "^3.18.1",
     "next": "16.1.6",
     "radix-ui": "^1.4.3",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "remark": "^15.0.1",
+    "remark-html": "^16.0.1",
     "stripe": "^20.3.1",
     "tailwind-merge": "^3.4.0"
   },

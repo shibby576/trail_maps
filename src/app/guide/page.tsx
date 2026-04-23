@@ -201,6 +201,9 @@ export default function GuidePage() {
             <Logo className="w-5 h-5" />
             <span>TrailPlot</span>
           </div>
+          <Link href="/blog" className="hover:text-gray-700">
+            Blog
+          </Link>
           <a
             href="mailto:trailplot@gmail.com"
             className="hover:text-gray-700"
