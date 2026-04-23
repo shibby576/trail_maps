@@ -30,11 +30,24 @@ function formatDate(dateStr: string) {
   });
 }
 
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://trailplot.com" },
+    { "@type": "ListItem", position: 2, name: "Blog", item: "https://trailplot.com/blog" },
+  ],
+};
+
 export default function BlogIndexPage() {
   const posts = getAllPosts();
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       {/* Header */}
       <header className="border-b border-gray-200 px-6 py-4">
         <div className="max-w-3xl mx-auto flex items-center justify-between">

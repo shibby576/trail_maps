@@ -53,6 +53,19 @@ export const metadata: Metadata = {
   },
 };
 
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "TrailPlot",
+  url: siteUrl,
+  logo: `${siteUrl}/og-image.png`,
+  contactPoint: {
+    "@type": "ContactPoint",
+    email: "trailplot@gmail.com",
+    contactType: "customer support",
+  },
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -61,6 +74,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${cinzel.variable} antialiased font-sans`}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
         {children}
         <Analytics />
       </body>

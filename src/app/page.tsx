@@ -67,8 +67,48 @@ export default function HomePage() {
     }
   };
 
+  const productSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: "Custom Trail Poster",
+    description:
+      "Upload your GPX file to create a custom hiking trail poster with satellite or topographic map styles",
+    brand: { "@type": "Brand", name: "TrailPlot" },
+    image: "https://trailplot.com/og-image.png",
+    offers: {
+      "@type": "AggregateOffer",
+      priceCurrency: "USD",
+      lowPrice: "29",
+      highPrice: "49",
+      offerCount: "3",
+      availability: "https://schema.org/InStock",
+      url: "https://trailplot.com",
+    },
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://trailplot.com",
+      },
+    ],
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-blue-50 flex flex-col">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       {/* Header */}
       <header className="px-6 py-6">
         <div className="flex items-center gap-2">
