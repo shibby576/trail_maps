@@ -49,8 +49,22 @@ export default async function BlogPostPage({ params }: Props) {
   const post = await getPost(slug);
   if (!post) notFound();
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://trailplot.com" },
+      { "@type": "ListItem", position: 2, name: "Blog", item: "https://trailplot.com/blog" },
+      { "@type": "ListItem", position: 3, name: post.title, item: `https://trailplot.com/blog/${slug}` },
+    ],
+  };
+
   return (
     <div className="min-h-screen bg-white flex flex-col">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       {/* Header */}
       <header className="border-b border-gray-200 px-6 py-4">
         <div className="max-w-3xl mx-auto flex items-center justify-between">
