@@ -18,26 +18,35 @@ const siteUrl = "https://trailplot.com";
 
 export const metadata: Metadata = {
   title: {
-    default: "TrailPlot — Turn Your Hike Into a Poster",
+    default: "TrailPlot — Turn Your Hike Into a Custom Poster",
     template: "%s | TrailPlot",
   },
   description:
-    "Upload your GPX file and turn your hiking, running, or cycling route into a high-quality wall poster. Works with Strava, Garmin, and AllTrails.",
+    "Upload your GPX file from Strava, Garmin, or AllTrails and create a custom trail poster with satellite or topographic map styles. Printed on premium paper and shipped to your door.",
   metadataBase: new URL(siteUrl),
   openGraph: {
     type: "website",
     locale: "en_US",
     url: siteUrl,
     siteName: "TrailPlot",
-    title: "TrailPlot — Turn Your Hike Into a Poster",
+    title: "TrailPlot — Turn Your Hike Into a Custom Poster",
     description:
-      "Upload your GPX file and turn your hiking, running, or cycling route into a high-quality wall poster.",
+      "Upload your GPX file from Strava, Garmin, or AllTrails and create a custom trail poster with satellite or topographic map styles. Printed on premium paper and shipped to your door.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "TrailPlot — Custom Trail Poster",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "TrailPlot — Turn Your Hike Into a Poster",
+    title: "TrailPlot — Turn Your Hike Into a Custom Poster",
     description:
-      "Upload your GPX file and turn your hiking, running, or cycling route into a high-quality wall poster.",
+      "Upload your GPX file from Strava, Garmin, or AllTrails and create a custom trail poster with satellite or topographic map styles. Printed on premium paper and shipped to your door.",
+    images: ["/og-image.png"],
   },
   icons: {
     icon: "data:image/svg+xml,<svg viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'><rect width='40' height='40' rx='8' fill='%23059669'/><path d='M 6 30 Q 12 26, 16 27 Q 20 28, 24 25 Q 28 22, 34 23' stroke='white' stroke-width='0.7' stroke-linecap='round' fill='none' opacity='0.2'/><path d='M 6 26 Q 11 22, 15 23 Q 19 24, 23 21 Q 27 18, 34 19' stroke='white' stroke-width='0.7' stroke-linecap='round' fill='none' opacity='0.2'/><path d='M 8 22 Q 13 18, 17 19 Q 21 20, 24 17 Q 28 14, 33 15' stroke='white' stroke-width='0.7' stroke-linecap='round' fill='none' opacity='0.15'/><path d='M 6 32 L 13 18 L 16 22 L 21 12 L 28 24 L 34 32 Z' fill='white' opacity='0.15'/><path d='M 6 32 L 13 18 L 16 22 L 21 12 L 28 24 L 34 32' stroke='white' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round' fill='none' opacity='0.5'/><path d='M 9 31 C 12 28, 13 25, 15 23 C 17 21, 18 19, 20 17 C 22 15, 25 18, 27 20 C 29 22, 30 19, 32 16' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' fill='none' opacity='0.9'/><circle cx='9' cy='31' r='2' fill='white' opacity='0.9'/><path d='M 32 11 L 32 16' stroke='white' stroke-width='1.5' stroke-linecap='round' opacity='0.9'/><path d='M 32 11 L 35 14.5 L 32 13.5 L 29 14.5 Z' fill='white' opacity='0.9'/></svg>",

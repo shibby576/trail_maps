@@ -233,6 +233,9 @@ export default function HomePage() {
             <Link href="/guide" className="hover:text-gray-700">
               GPX Guide
             </Link>
+            <Link href="/blog" className="hover:text-gray-700">
+              Blog
+            </Link>
             <a href="mailto:trailplot@gmail.com" className="hover:text-gray-700">
               trailplot@gmail.com
             </a>
