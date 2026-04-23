@@ -1,83 +1,29 @@
 export function Logo({ className = "w-10 h-10" }: { className?: string }) {
   return (
     <svg
-      viewBox="0 0 40 40"
+      viewBox="0 0 280 280"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
     >
-      {/* Background */}
-      <rect width="40" height="40" rx="8" fill="#059669" />
-
-      {/* Topographic contour lines */}
-      <path
-        d="M 6 30 Q 12 26, 16 27 Q 20 28, 24 25 Q 28 22, 34 23"
-        stroke="white"
-        strokeWidth="0.7"
-        strokeLinecap="round"
-        fill="none"
-        opacity="0.2"
-      />
-      <path
-        d="M 6 26 Q 11 22, 15 23 Q 19 24, 23 21 Q 27 18, 34 19"
-        stroke="white"
-        strokeWidth="0.7"
-        strokeLinecap="round"
-        fill="none"
-        opacity="0.2"
-      />
-      <path
-        d="M 8 22 Q 13 18, 17 19 Q 21 20, 24 17 Q 28 14, 33 15"
-        stroke="white"
-        strokeWidth="0.7"
-        strokeLinecap="round"
-        fill="none"
-        opacity="0.15"
-      />
-
-      {/* Mountain silhouette */}
-      <path
-        d="M 6 32 L 13 18 L 16 22 L 21 12 L 28 24 L 34 32 Z"
-        fill="white"
-        opacity="0.15"
-      />
-      <path
-        d="M 6 32 L 13 18 L 16 22 L 21 12 L 28 24 L 34 32"
-        stroke="white"
-        strokeWidth="1.2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        fill="none"
-        opacity="0.5"
-      />
-
-      {/* Trail path winding through mountains */}
-      <path
-        d="M 9 31 C 12 28, 13 25, 15 23 C 17 21, 18 19, 20 17 C 22 15, 25 18, 27 20 C 29 22, 30 19, 32 16"
-        stroke="white"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        fill="none"
-        opacity="0.9"
-      />
-
-      {/* Trail start marker */}
-      <circle cx="9" cy="31" r="2" fill="white" opacity="0.9" />
-
-      {/* Trail end / summit marker */}
-      <path
-        d="M 32 11 L 32 16"
-        stroke="white"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        opacity="0.9"
-      />
-      <path
-        d="M 32 11 L 35 14.5 L 32 13.5 L 29 14.5 Z"
-        fill="white"
-        opacity="0.9"
-      />
+      <rect width="280" height="280" rx="36" fill="#059669" />
+      {/* Topo contours */}
+      <path d="M 28 216 Q 56 198, 84 204 Q 112 210, 140 192 Q 168 174, 196 180 Q 224 186, 252 174" stroke="white" strokeWidth="1.2" strokeLinecap="round" fill="none" opacity="0.1" />
+      <path d="M 28 192 Q 56 174, 84 180 Q 112 186, 140 168 Q 168 150, 196 156 Q 224 162, 252 150" stroke="white" strokeWidth="1.2" strokeLinecap="round" fill="none" opacity="0.08" />
+      <path d="M 42 168 Q 70 150, 98 156 Q 126 162, 147 144 Q 168 126, 196 132 Q 224 138, 244 126" stroke="white" strokeWidth="1.2" strokeLinecap="round" fill="none" opacity="0.06" />
+      {/* Mountain fill */}
+      <path d="M 36 228 L 82 130 L 100 154 L 136 80 L 175 160 L 240 228 Z" fill="white" opacity="0.1" />
+      {/* Mountain ridgeline */}
+      <path d="M 36 228 L 82 130 L 100 154 L 136 80 L 175 160 L 240 228" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.35" />
+      {/* Trail — switchbacks to summit */}
+      <path d="M 56 222 C 62 212, 72 204, 86 200 C 100 196, 110 200, 112 190 C 114 180, 100 172, 88 168 C 76 164, 72 158, 82 148 C 92 138, 108 136, 120 130 C 132 124, 136 110, 136 80" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.92" />
+      {/* Waypoint dots */}
+      <circle cx="56" cy="222" r="4" fill="white" opacity="0.92" />
+      <circle cx="88" cy="199" r="3" fill="white" opacity="0.75" />
+      <circle cx="112" cy="190" r="3" fill="white" opacity="0.75" />
+      <circle cx="88" cy="168" r="3" fill="white" opacity="0.75" />
+      <circle cx="82" cy="148" r="3" fill="white" opacity="0.75" />
+      <circle cx="120" cy="130" r="3" fill="white" opacity="0.75" />
     </svg>
   );
 }
