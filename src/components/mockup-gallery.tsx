@@ -16,9 +16,9 @@ const MOCKUPS = [
     style: "Aerial",
   },
   {
-    src: "/mockups/halfdome-outdoors.png",
-    trail: "Half Dome",
-    location: "Yosemite, CA",
+    src: "/mockups/jmt.png",
+    trail: "John Muir Trail",
+    location: "Yosemite to Mt. Whitney, CA",
     style: "Outdoors",
   },
   {
