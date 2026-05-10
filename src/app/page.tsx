@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { Upload, MapPin, Palette, Printer } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { TrailShape } from "@/components/trail-shape";
+import { MockupGallery } from "@/components/mockup-gallery";
 import { SAMPLE_TRAILS } from "@/lib/sample-trails";
 import Link from "next/link";
 import { useState, useEffect } from "react";
@@ -137,6 +138,9 @@ export default function HomePage() {
               delivered to your door.
             </p>
           </div>
+
+          {/* Mockup Gallery */}
+          <MockupGallery />
 
           {/* Upload Section */}
           <section className="space-y-4">
