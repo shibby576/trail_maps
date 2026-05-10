@@ -4,31 +4,31 @@ import Image from "next/image";
 
 const MOCKUPS = [
   {
-    src: "/mockups/kissena-watercolor.jpg",
+    src: "/mockups/kissena-watercolor.png",
     trail: "Kissena Group Ride",
     location: "New York City",
     style: "Watercolor",
   },
   {
-    src: "/mockups/enchantments-aerial.jpg",
+    src: "/mockups/enchantments-aerial.png",
     trail: "The Enchantments",
     location: "Washington, USA",
     style: "Aerial",
   },
   {
-    src: "/mockups/halfdome-outdoors.jpg",
+    src: "/mockups/halfdome-outdoors.png",
     trail: "Half Dome",
     location: "Yosemite, CA",
     style: "Outdoors",
   },
   {
-    src: "/mockups/hauteroute-aerial.jpg",
+    src: "/mockups/hauteroute-aerial.png",
     trail: "Haute Route",
     location: "Chamonix – Zermatt",
     style: "Aerial",
   },
   {
-    src: "/mockups/hauteroute-topo.jpg",
+    src: "/mockups/hauteroute-topo.png",
     trail: "Haute Route",
     location: "Chamonix – Zermatt",
     style: "Topo",
