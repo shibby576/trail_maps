@@ -16,10 +16,10 @@ const MOCKUPS = [
     style: "Aerial",
   },
   {
-    src: "/mockups/jmt.png",
+    src: "/mockups/jmt-topo.png",
     trail: "John Muir Trail",
     location: "Yosemite to Mt. Whitney, CA",
-    style: "Outdoors",
+    style: "Topo",
   },
   {
     src: "/mockups/hauteroute-aerial.png",
