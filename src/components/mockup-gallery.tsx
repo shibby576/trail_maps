@@ -54,17 +54,14 @@ export function MockupGallery() {
             key={i}
             className="flex-none w-52 snap-start"
           >
-            {/* Frame */}
-            <div className="relative bg-black rounded-sm shadow-2xl p-2.5">
-              <div className="relative aspect-[2/3] bg-gray-200 overflow-hidden">
-                <Image
-                  src={m.src}
-                  alt={`${m.trail} — ${m.style} style poster`}
-                  fill
-                  className="object-cover"
-                  sizes="208px"
-                />
-              </div>
+            <div className="relative aspect-[2/3] bg-gray-200 overflow-hidden rounded-sm shadow-lg">
+              <Image
+                src={m.src}
+                alt={`${m.trail} — ${m.style} style poster`}
+                fill
+                className="object-cover"
+                sizes="208px"
+              />
             </div>
             {/* Caption */}
             <div className="mt-2.5 space-y-0.5">
