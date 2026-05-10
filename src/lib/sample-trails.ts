@@ -17,12 +17,12 @@ export const SAMPLE_TRAILS: SampleTrail[] = [
     gpxPath: "/samples/enchantments-traverse.gpx",
   },
   {
-    id: "half-dome",
-    name: "Half Dome via Mist Trail",
-    location: "Yosemite, California",
-    distance: "14.2 mi",
-    elevation: "4,800 ft gain",
-    gpxPath: "/samples/half-dome-mist-trail.gpx",
+    id: "jmt",
+    name: "John Muir Trail",
+    location: "Yosemite to Mt. Whitney, CA",
+    distance: "211 mi",
+    elevation: "47,000 ft gain",
+    gpxPath: "/samples/jmt.gpx",
   },
   {
     id: "haute-route",
