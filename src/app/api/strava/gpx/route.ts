@@ -41,7 +41,16 @@ ${trkpts}
   </trk>
 </gpx>`;
 
-  return new NextResponse(gpx, {
+  // Deauthorize immediately after fetching — frees up the connected athlete slot.
+  // Fire-and-forget: don't block the response if it fails.
+  fetch("https://www.strava.com/oauth/deauthorize", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}` },
+  }).catch(() => {});
+
+  const response = new NextResponse(gpx, {
     headers: { "Content-Type": "application/gpx+xml" },
   });
+  response.cookies.delete("strava_token");
+  return response;
 }
