@@ -150,7 +150,25 @@ export default function HomePage() {
               </h3>
             </div>
 
-            <div className="max-w-md mx-auto">
+            <div className="max-w-md mx-auto space-y-3">
+              {/* Strava button */}
+              <a
+                href={`https://www.strava.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_STRAVA_CLIENT_ID}&redirect_uri=${encodeURIComponent((process.env.NEXT_PUBLIC_BASE_URL || "https://trailplot.com") + "/api/strava/callback")}&response_type=code&scope=activity:read_all&approval_prompt=auto`}
+                className="flex items-center justify-center gap-3 w-full bg-[#FC4C02] hover:bg-[#e04400] text-white font-semibold rounded-2xl px-6 py-4 transition-colors"
+              >
+                <svg viewBox="0 0 24 24" className="w-5 h-5 fill-white" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7 13.828h4.169" />
+                </svg>
+                Import from Strava
+              </a>
+
+              <div className="relative flex items-center gap-3">
+                <div className="flex-1 h-px bg-gray-200" />
+                <span className="text-xs text-gray-400">or</span>
+                <div className="flex-1 h-px bg-gray-200" />
+              </div>
+
+              {/* GPX upload */}
               <div
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}
@@ -175,7 +193,7 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <p className="text-center mt-3">
+              <p className="text-center">
                 <Link
                   href="/guide"
                   className="text-sm text-emerald-600 hover:text-emerald-700 hover:underline"
