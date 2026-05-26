@@ -29,12 +29,6 @@ export async function GET(request: NextRequest) {
   const data = await res.json();
   const token = data.access_token;
 
-  // Deauth immediately — frees the athlete slot while access token stays valid until expiry.
-  fetch("https://www.strava.com/oauth/deauthorize", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${token}` },
-  }).catch(() => {});
-
   const response = NextResponse.redirect(`${baseUrl}/strava`);
   response.cookies.set("strava_token", token, {
     httpOnly: true,
