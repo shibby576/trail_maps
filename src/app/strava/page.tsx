@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Logo } from "@/components/logo";
 import { Mountain, Bike, PersonStanding, ArrowLeft } from "lucide-react";
@@ -41,6 +41,7 @@ export default function StravaPage() {
   const [loading, setLoading] = useState(true);
   const [loadingId, setLoadingId] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const deauthOnUnload = useRef(() => navigator.sendBeacon("/api/strava/deauth"));
 
   useEffect(() => {
     fetch("/api/strava/activities")
@@ -60,6 +61,13 @@ export default function StravaPage() {
       .finally(() => setLoading(false));
   }, [router]);
 
+  // Deauth if user leaves without picking an activity
+  useEffect(() => {
+    const fn = deauthOnUnload.current;
+    window.addEventListener("beforeunload", fn);
+    return () => window.removeEventListener("beforeunload", fn);
+  }, []);
+
   const handlePick = async (activity: Activity) => {
     setLoadingId(activity.id);
     try {
@@ -68,6 +76,8 @@ export default function StravaPage() {
       const gpx = await res.text();
       sessionStorage.setItem("gpxContent", gpx);
       sessionStorage.setItem("gpxFileName", `${activity.name}.gpx`);
+      // GPX route handles deauth — remove beforeunload so it doesn't double-fire
+      window.removeEventListener("beforeunload", deauthOnUnload.current);
       router.push("/customize");
     } catch {
       setLoadingId(null);
