@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
     httpOnly: true,
     secure: true,
     sameSite: "lax",
-    maxAge: 60 * 60, // 1 hour
+    maxAge: 60 * 20, // 20 minutes
     path: "/",
   });
 
