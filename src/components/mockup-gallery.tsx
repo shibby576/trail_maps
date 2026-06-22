@@ -41,10 +41,11 @@ export function MockupGallery() {
         </p>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-5 px-6 -mx-6">
+      <div className="flex gap-5 overflow-x-auto pb-4 px-6 -mx-6 snap-x snap-mandatory scrollbar-hide md:grid md:grid-cols-4 md:overflow-visible md:pb-0 md:snap-none">
         {MOCKUPS.map((m, i) => (
           <div
             key={i}
+            className="flex-none w-44 snap-start md:w-auto md:flex-initial"
           >
             <Image
               src={m.src}
