@@ -13,6 +13,7 @@ interface Activity {
   distance_m: number;
   elevation_m: number;
   date: string;
+  start_latlng: [number, number] | null;
 }
 
 function activityIcon(type: string) {
@@ -76,6 +77,10 @@ export default function StravaPage() {
       const gpx = await res.text();
       sessionStorage.setItem("gpxContent", gpx);
       sessionStorage.setItem("gpxFileName", `${activity.name}.gpx`);
+      sessionStorage.setItem("stravaDate", activity.date);
+      if (activity.start_latlng) {
+        sessionStorage.setItem("stravaLatLng", JSON.stringify(activity.start_latlng));
+      }
       // GPX route handles deauth — remove beforeunload so it doesn't double-fire
       window.removeEventListener("beforeunload", deauthOnUnload.current);
       router.push("/customize");

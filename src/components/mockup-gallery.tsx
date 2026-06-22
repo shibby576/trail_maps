@@ -27,12 +27,6 @@ const MOCKUPS = [
     location: "Chamonix – Zermatt",
     style: "Aerial",
   },
-  {
-    src: "/mockups/hauteroute-topo.png",
-    trail: "Haute Route",
-    location: "Chamonix – Zermatt",
-    style: "Topo",
-  },
 ];
 
 export function MockupGallery() {
@@ -47,12 +41,10 @@ export function MockupGallery() {
         </p>
       </div>
 
-      {/* Horizontally scrollable row */}
-      <div className="flex gap-5 overflow-x-auto pb-4 px-6 -mx-6 snap-x snap-mandatory scrollbar-hide">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-5 px-6 -mx-6">
         {MOCKUPS.map((m, i) => (
           <div
             key={i}
-            className="flex-none w-52 snap-start"
           >
             <Image
               src={m.src}

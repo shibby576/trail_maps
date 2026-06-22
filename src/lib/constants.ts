@@ -87,6 +87,16 @@ export const POSTER_DESIGN = {
 
 export const POSTER_SIZES = [
   {
+    key: "8x10",
+    label: '8" × 10"',
+    subtitle: "Great for gifting",
+    priceCents: 1900,
+    priceDisplay: 19,
+    printWidth: 1600,
+    printHeight: 2000,
+    printfulVariantId: 4463,
+  },
+  {
     key: "12x18",
     label: '12" × 18"',
     subtitle: "Perfect for desks",

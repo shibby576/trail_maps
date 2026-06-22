@@ -79,7 +79,7 @@ export default function HomePage() {
     offers: {
       "@type": "AggregateOffer",
       priceCurrency: "USD",
-      lowPrice: "29",
+      lowPrice: "19",
       highPrice: "49",
       offerCount: "3",
       availability: "https://schema.org/InStock",
@@ -172,7 +172,7 @@ export default function HomePage() {
               <div
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}
-                className="relative border-2 border-dashed border-gray-300 rounded-2xl p-10 text-center hover:border-emerald-500 transition-colors bg-white/50 backdrop-blur-sm"
+                className="relative border-2 border-dashed border-gray-300 rounded-2xl px-6 py-5 text-center hover:border-emerald-500 transition-colors bg-white/50 backdrop-blur-sm"
               >
                 <input
                   type="file"
@@ -180,15 +180,15 @@ export default function HomePage() {
                   onChange={handleFileChange}
                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                 />
-                <div className="space-y-3">
-                  <div className="w-14 h-14 mx-auto bg-emerald-100 rounded-full flex items-center justify-center">
-                    <Upload className="w-7 h-7 text-emerald-600" />
+                <div className="flex items-center justify-center gap-3">
+                  <div className="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Upload className="w-5 h-5 text-emerald-600" />
                   </div>
-                  <div className="space-y-1">
-                    <p className="text-base font-medium text-gray-900">
+                  <div className="text-left">
+                    <p className="text-sm font-medium text-gray-900">
                       Drop your GPX file here
                     </p>
-                    <p className="text-sm text-gray-500">or tap to browse</p>
+                    <p className="text-xs text-gray-500">or tap to browse</p>
                   </div>
                 </div>
               </div>

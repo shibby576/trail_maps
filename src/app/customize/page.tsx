@@ -10,7 +10,7 @@ import { PosterPreview } from "@/components/poster-preview";
 import { renderPosterToBlob } from "@/lib/render-poster";
 import { parseGPXString, generateSampleTrail } from "@/lib/gpx-parser";
 import type { PosterConfig, TrailGeoJSON, TrailBounds } from "@/lib/types";
-import { TRAIL_COLORS, POSTER_DESIGN, MAP_STYLES } from "@/lib/constants";
+import { TRAIL_COLORS, POSTER_DESIGN, MAP_STYLES, MAPBOX_TOKEN } from "@/lib/constants";
 
 export default function CustomizePage() {
   const router = useRouter();
@@ -30,6 +30,8 @@ export default function CustomizePage() {
   useEffect(() => {
     const gpxContent = sessionStorage.getItem("gpxContent");
     const gpxFileName = sessionStorage.getItem("gpxFileName");
+    const stravaDate = sessionStorage.getItem("stravaDate");
+    const stravaLatLng = sessionStorage.getItem("stravaLatLng");
 
     let parsed;
     if (gpxContent) {
@@ -41,7 +43,13 @@ export default function CustomizePage() {
     setTrailGeoJSON(parsed.geojson);
     setTrailBounds(parsed.bounds);
 
-    // Auto-populate from GPX stats
+    let dateValue = parsed.date;
+    if (stravaDate) {
+      const match = stravaDate.match(/^(\d{4}-\d{2}-\d{2})/);
+      if (match) dateValue = match[1];
+      sessionStorage.removeItem("stravaDate");
+    }
+
     setConfig((prev) => ({
       ...prev,
       distance: String(parsed.stats.distanceMiles),
@@ -51,8 +59,32 @@ export default function CustomizePage() {
       title: gpxFileName
         ? gpxFileName.replace(".gpx", "").replace(/[-_]/g, " ").trim()
         : prev.title,
-      date: parsed.date ?? prev.date,
+      date: dateValue ?? prev.date,
     }));
+
+    if (stravaLatLng && MAPBOX_TOKEN) {
+      try {
+        const [lat, lng] = JSON.parse(stravaLatLng) as [number, number];
+        fetch(
+          `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?types=place,region&limit=1&access_token=${MAPBOX_TOKEN}`
+        )
+          .then((r) => r.json())
+          .then((data) => {
+            const feature = data.features?.[0];
+            if (feature) {
+              const place = feature.text;
+              const region = feature.context?.find((c: { id: string }) => c.id.startsWith("region"))?.text;
+              const country = feature.context?.find((c: { id: string }) => c.id.startsWith("country"))?.short_code?.toUpperCase();
+              const parts = [place, region, country].filter(Boolean);
+              if (parts.length > 0) {
+                setConfig((prev) => ({ ...prev, location: parts.join(", ") }));
+              }
+            }
+          })
+          .catch(() => {});
+      } catch {}
+      sessionStorage.removeItem("stravaLatLng");
+    }
   }, []);
 
   const [isRendering, setIsRendering] = useState(false);

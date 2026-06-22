@@ -12,7 +12,7 @@ import type { PosterConfig, TrailGeoJSON, TrailBounds } from "@/lib/types";
 
 export default function PreviewPage() {
   const router = useRouter();
-  const [selectedSize, setSelectedSize] = useState(1);
+  const [selectedSize, setSelectedSize] = useState(2);
   const [trailGeoJSON, setTrailGeoJSON] = useState<TrailGeoJSON | null>(null);
   const [trailBounds, setTrailBounds] = useState<TrailBounds | null>(null);
   const [config, setConfig] = useState<PosterConfig | null>(null);
